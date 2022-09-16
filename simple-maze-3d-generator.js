@@ -52,10 +52,7 @@ class SimpleMaze3dGenerator extends Maze3dGenerator {
     // randomly create start and goal
     this.maze.start = [randomInt(this.maze.dimensions), randomInt(this.maze.rows), randomInt(this.maze.columns)];
     this.maze.goal = [randomInt(this.maze.dimensions), randomInt(this.maze.rows), randomInt(this.maze.columns)];
-    console.log(this.maze.start)
-    console.log(this.maze.goal)
-    while (this.maze.start != this.maze.goal) {
-      console.log("AAA")
+    while (this.maze.start === this.maze.goal) {
       this.maze.goal = [randomInt(this.maze.dimensions), randomInt(this.maze.rows), randomInt(this.maze.columns)];
     }
 
@@ -76,54 +73,60 @@ class SimpleMaze3dGenerator extends Maze3dGenerator {
       let num = randomInt(currCell.directionsNum);
 
       // if distance between next randow cell and goal less then distance between current cell and 
-      // goal then make this move
+      // goal then make this move and broke the wall
       switch (num) {
         case 0:
-          console.log(distanceBetweenCells(currCell.place, this.maze.goal))
           nextCell = this.maze.maze[currCell.place[0] + 1 < this.maze.dimensions ? currCell.place[0] + 1 : currCell.place[0]][currCell.place[1]][currCell.place[2]];
-          if (distanceBetweenCells(currCell.place, this.maze.goal) >= distanceBetweenCells(nextCell.place, this.maze.goal)) {
-            currCell.up = 0;
-            currCell = nextCell;
+          if (nextCell !== currCell) {
+            if (distanceBetweenCells(currCell.place, this.maze.goal) >= distanceBetweenCells(nextCell.place, this.maze.goal)) {
+              currCell.up = 0;
+              currCell = nextCell;
+            }
           }
           break;
         case 1:
-          console.log(distanceBetweenCells(currCell.place, this.maze.goal))
-          nextCell = this.maze.maze[currCell.place[0] - 1 > 0 ? currCell.place[0] - 1 : currCell.place[0]][currCell.place[1]][currCell.place[2]];
-          if (distanceBetweenCells(currCell.place, this.maze.goal) >= distanceBetweenCells(nextCell.place, this.maze.goal)) {
-            currCell.down = 0;
-            currCell = nextCell;
+          nextCell = this.maze.maze[currCell.place[0] - 1 >= 0 ? currCell.place[0] - 1 : currCell.place[0]][currCell.place[1]][currCell.place[2]];
+          if (nextCell !== currCell) {
+            if (distanceBetweenCells(currCell.place, this.maze.goal) >= distanceBetweenCells(nextCell.place, this.maze.goal)) {
+              currCell.down = 0;
+              currCell = nextCell;
+            }
           }
           break;
         case 2:
-          console.log(distanceBetweenCells(currCell.place, this.maze.goal))
-          nextCell = this.maze.maze[currCell.place[0]][currCell.place[1]][currCell.place[2] - 1 > 0 ? currCell.place[2] - 1 : currCell.place[2]];
-          if (distanceBetweenCells(currCell.place, this.maze.goal) >= distanceBetweenCells(nextCell.place, this.maze.goal)) {
-            currCell.left = 0;
-            currCell = nextCell;
+          nextCell = this.maze.maze[currCell.place[0]][currCell.place[1]][currCell.place[2] - 1 >= 0 ? currCell.place[2] - 1 : currCell.place[2]];
+          if (nextCell !== currCell) {
+            if (distanceBetweenCells(currCell.place, this.maze.goal) >= distanceBetweenCells(nextCell.place, this.maze.goal)) {
+              currCell.left = 0;
+              currCell = nextCell;
+            }
           }
           break;
         case 3:
-          console.log(distanceBetweenCells(currCell.place, this.maze.goal))
           nextCell = this.maze.maze[currCell.place[0]][currCell.place[1]][currCell.place[2] + 1 < this.maze.columns ? currCell.place[2] + 1 : currCell.place[2]];
-          if (distanceBetweenCells(currCell.place, this.maze.goal) >= distanceBetweenCells(nextCell.place, this.maze.goal)) {
-            currCell.right = 0;
-            currCell = nextCell;
+          if (nextCell !== currCell) {
+            if (distanceBetweenCells(currCell.place, this.maze.goal) >= distanceBetweenCells(nextCell.place, this.maze.goal)) {
+              currCell.right = 0;
+              currCell = nextCell;
+            }
           }
           break;
         case 4:
-          console.log(distanceBetweenCells(currCell.place, this.maze.goal))
           nextCell = this.maze.maze[currCell.place[0]][currCell.place[1] + 1 < this.maze.rows ? currCell.place[1] + 1 : currCell.place[1]][currCell.place[2]];
-          if (distanceBetweenCells(currCell.place, this.maze.goal) >= distanceBetweenCells(nextCell.place, this.maze.goal)) {
-            currCell.forward = 0;
-            currCell = nextCell;
+          if (nextCell !== currCell) {
+            if (distanceBetweenCells(currCell.place, this.maze.goal) >= distanceBetweenCells(nextCell.place, this.maze.goal)) {
+              currCell.forward = 0;
+              currCell = nextCell;
+            }
           }
           break;
         case 5:
-          console.log(distanceBetweenCells(currCell.place, this.maze.goal))
-          nextCell = this.maze.maze[currCell.place[0]][currCell.place[1] - 1 > 0 ? currCell.place[1] - 1 : currCell.place[1]][currCell.place[2]];
-          if (distanceBetweenCells(currCell.place, this.maze.goal) >= distanceBetweenCells(nextCell.place, this.maze.goal)) {
-            currCell.backward = 0;
-            currCell = nextCell;
+          nextCell = this.maze.maze[currCell.place[0]][currCell.place[1] - 1 >= 0 ? currCell.place[1] - 1 : currCell.place[1]][currCell.place[2]];
+          if (nextCell !== currCell) {
+            if (distanceBetweenCells(currCell.place, this.maze.goal) >= distanceBetweenCells(nextCell.place, this.maze.goal)) {
+              currCell.backward = 0;
+              currCell = nextCell;
+            }
           }
           break;
       };
