@@ -55,37 +55,37 @@ class SimpleMaze3dGenerator extends Maze3dGenerator {
     this.maze.goal = [randomInt(this.maze.dimensions), randomInt(this.maze.rows), randomInt(this.maze.columns)]
 
     // carve a random path
-    let currCell = this.maze.maze[this.maze.start[0]][this.maze.start[1]][this.maze.start[2]]
-    while (currCell != this.maze.maze[this.maze.goal[0]][this.maze.goal[1]][this.maze.goal[2]]) {
-      let num = randomInt(currCell.directionsNum);
-      switch (num) {
-        case 0:
-          currCell.up = 0;
-          currCell = this.maze.maze[currCell.place[0] + 1 < this.maze.dimensions ? currCell.place[0] + 1 : currCell.place[0]][currCell.place[1]][currCell.place[2]];
-          break;
-        case 1:
-          currCell.down = 0;
-          currCell = this.maze.maze[currCell.place[0] - 1 > 0 ? currCell.place[0] - 1 : currCell.place[0]][currCell.place[1]][currCell.place[2]];
-          break;
-        case 2:
-          currCell.left = 0;
-          currCell = this.maze.maze[currCell.place[0]][currCell.place[1]][currCell.place[2] - 1 > 0 ? currCell.place[2] - 1 : currCell.place[2]];
-          break;
-        case 3:
-          currCell.right = 0;
-          currCell = this.maze.maze[currCell.place[0]][currCell.place[1]][currCell.place[2] + 1 < this.maze.columns ? currCell.place[2] + 1 : currCell.place[2]];
-          break;
-        case 4:
-          currCell.forward = 0;
-          currCell = this.maze.maze[currCell.place[0]][currCell.place[1] + 1 < this.maze.rows ? currCell.place[1] + 1 : currCell.place[1]][currCell.place[2]];
-          break;
-        case 5:
-          currCell.backward = 0;
-          currCell = this.maze.maze[currCell.place[0]][currCell.place[1] - 1 > 0 ? currCell.place[1] - 1 : currCell.place[1]][currCell.place[2]];
-          break;
-      };
+    // let currCell = this.maze.maze[this.maze.start[0]][this.maze.start[1]][this.maze.start[2]]
+    // while (currCell != this.maze.maze[this.maze.goal[0]][this.maze.goal[1]][this.maze.goal[2]]) {
+    //   let num = randomInt(currCell.directionsNum);
+    //   switch (num) {
+    //     case 0:
+    //       currCell.up = 0;
+    //       currCell = this.maze.maze[currCell.place[0] + 1 < this.maze.dimensions ? currCell.place[0] + 1 : currCell.place[0]][currCell.place[1]][currCell.place[2]];
+    //       break;
+    //     case 1:
+    //       currCell.down = 0;
+    //       currCell = this.maze.maze[currCell.place[0] - 1 > 0 ? currCell.place[0] - 1 : currCell.place[0]][currCell.place[1]][currCell.place[2]];
+    //       break;
+    //     case 2:
+    //       currCell.left = 0;
+    //       currCell = this.maze.maze[currCell.place[0]][currCell.place[1]][currCell.place[2] - 1 > 0 ? currCell.place[2] - 1 : currCell.place[2]];
+    //       break;
+    //     case 3:
+    //       currCell.right = 0;
+    //       currCell = this.maze.maze[currCell.place[0]][currCell.place[1]][currCell.place[2] + 1 < this.maze.columns ? currCell.place[2] + 1 : currCell.place[2]];
+    //       break;
+    //     case 4:
+    //       currCell.forward = 0;
+    //       currCell = this.maze.maze[currCell.place[0]][currCell.place[1] + 1 < this.maze.rows ? currCell.place[1] + 1 : currCell.place[1]][currCell.place[2]];
+    //       break;
+    //     case 5:
+    //       currCell.backward = 0;
+    //       currCell = this.maze.maze[currCell.place[0]][currCell.place[1] - 1 > 0 ? currCell.place[1] - 1 : currCell.place[1]][currCell.place[2]];
+    //       break;
+    //   };
 
-    }
+    // }
     return this.maze.maze;
   }
 }
