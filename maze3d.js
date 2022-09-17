@@ -30,7 +30,7 @@ class Maze3d {
     for (let i = 0; i < this.dimensions; i++) {
       total += `Level ${i}\n`
       let table = '\t';
-      table += "_".repeat(this.columns * 3) + "\n";
+      table += "-".repeat(this.columns * 3) + "\n";
       for (let j = 0; j < this.rows; j++) {
         let row = "\t";
         table += '\t'
@@ -64,16 +64,16 @@ class Maze3d {
           };
 
           if (!cell.forward) {
-            row += " + "
+            row += "+++"
           } else {
-            row += " - "
+            row += "---"
           };
         }
         row = j < (this.rows - 1) ? row + "\n" : ''
         table += "\n" + row
 
       }
-      table += "\t" + "_".repeat(this.columns * 3) + "\n";
+      table += "\t" + "-".repeat(this.columns * 3) + "\n";
       total += table + "\n"
       table = "\t"
     };
