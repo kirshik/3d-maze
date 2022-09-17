@@ -35,12 +35,12 @@ class SimpleMaze3dGenerator extends Maze3dGenerator {
           cell.backward = j === (this.maze.rows - 1) ? 1 : Math.round(Math.random(1));
 
           // make sure that the walls of the cells coincide
-          upCell.down = cell.up;
-          downCell.up = cell.down;
-          leftCell.right = cell.left;
-          rightCell.left = cell.right;
-          forwardCell.backward = cell.forward;
-          backwardCell.forward = cell.backward;
+          upCell.down = cell === upCell ? cell.down : cell.up;
+          downCell.up = cell === downCell ? cell.up : cell.down;
+          leftCell.right = cell === leftCell ? cell.right : cell.left;
+          rightCell.left = cell === rightCell ? cell.left : cell.right;
+          forwardCell.backward = cell === forwardCell ? cell.backward : cell.forward;
+          backwardCell.forward = cell === backwardCell ? cell.forward : cell.backward;
         }
       }
     }

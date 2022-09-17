@@ -16,7 +16,7 @@ class Maze3d {
       for (let j = 0; j < this.rows; j++) {
         let row = [];
         for (let k = 0; k < this.columns; k++) {
-          const cell = new Cell([i, j, k], 1, 1, 1, 1, 1, 1);
+          const cell = new Cell([i, j, k]);
           row.push(cell);
         }
         board.push(row);
@@ -47,13 +47,13 @@ class Maze3d {
             table += "S";
           } else if (i === this.goal[0] && j === this.goal[1] && k === this.goal[2]) {
             table += "G";
-          } else if (cell.up && cell.down) {
-            table += "\u2b65"
-          } else if (cell.up) {
-            table += '\u2191'
-          } else if (cell.down) {
-            table += "\u2193"
           } else if (!cell.up && !cell.down) {
+            table += "\u2b65"
+          } else if (!cell.up) {
+            table += '\u2191'
+          } else if (!cell.down) {
+            table += "\u2193"
+          } else if (cell.up && cell.down) {
             table += " "
           };
 
@@ -63,7 +63,7 @@ class Maze3d {
             table += " "
           };
 
-          if (cell.forward) {
+          if (!cell.forward) {
             row += " + "
           } else {
             row += " - "

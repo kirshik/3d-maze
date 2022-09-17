@@ -6,7 +6,7 @@ class Cell {
    * @param {Boolean} left 
    * @param {Boolean} right 
    */
-  constructor(place, up = 0, down = 0, forward = 0, backward = 0, left = 0, right = 0) {
+  constructor(place, up = 1, down = 1, forward = 1, backward = 1, left = 1, right = 1) {
     // 1 - for wall, 0 for no wall
     this.up = up;
     this.down = down;
