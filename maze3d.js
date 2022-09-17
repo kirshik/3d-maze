@@ -63,7 +63,7 @@ class Maze3d {
           if (!cell.forward && k === (this.columns - 1)) {
             row += "   |"
           } else if (!cell.forward) {
-            row += "  +"
+            row += "   +"
           } else if (k === (this.columns - 1)) {
             row += " - |"
           } else {
