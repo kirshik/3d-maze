@@ -16,32 +16,7 @@ class Maze3d {
       for (let j = 0; j < this.rows; j++) {
         let row = [];
         for (let k = 0; k < this.columns; k++) {
-          const cell = new Cell([i, j, k]);
-          // check for boarder
-          switch (i) {
-            case 0:
-              cell.up = 1;
-              break;
-            case this.maze.dimensions - 1:
-              cell.down = 1;
-              break;
-          }
-          switch (k) {
-            case 0:
-              cell.left = 1;
-              break;
-            case this.maze.columns - 1:
-              cell.right = 1;
-              break;
-          }
-          switch (j) {
-            case 0:
-              cell.backward = 1;
-              break;
-            case this.maze.rows - 1:
-              cell.forward = 1;
-              break;
-          }
+          const cell = new Cell([i, j, k], 1, 1, 1, 1, 1, 1);
           row.push(cell);
         }
         board.push(row);

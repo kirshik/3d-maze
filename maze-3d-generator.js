@@ -15,7 +15,10 @@ class Maze3dGenerator {
     throw new Error("method must be implemented");
   }
   measureAlgorithmTime() {
-    throw new Error("method must be implemented")
+    let startTime = performance.now()
+    this.generate()
+    let endTime = performance.now()
+    return Math.round((endTime - startTime) * 100) / 100
   }
 }
 export default Maze3dGenerator;
