@@ -132,7 +132,7 @@ class SimpleMaze3dGenerator extends Maze3dGenerator {
       };
 
     }
-    return this.maze.maze;
+    return this.maze;
   }
 
 

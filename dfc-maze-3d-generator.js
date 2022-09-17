@@ -10,25 +10,21 @@ class DFSMaze3dGenerator extends Maze3dGenerator {
       return Math.floor(Math.random() * max);
     }
     function isUnvisitedNeighbours(cell, maze) {
-      if (visited.includes(cell)) {
-        for (const direction of directions.values()) {
-          const conditions = [
-            cell.place[0] + direction[0] < maze.dimensions,
-            cell.place[0] + direction[0] >= 0,
-            cell.place[1] + direction[1] < maze.rows,
-            cell.place[1] + direction[1] >= 0,
-            cell.place[2] + direction[2] < maze.columns,
-            cell.place[2] + direction[2] >= 0
-          ]
-          if (!conditions.includes(false)) {
-            const neighbour = maze.maze[cell.place[0] + direction[0]][cell.place[1] + direction[1]][cell.place[2] + direction[2]];
-            if (!visited.includes(neighbour)) {
-              return true;
-            }
+      for (const direction of directions.values()) {
+        const conditions = [
+          (cell.place[0] + direction[0] < maze.dimensions),
+          (cell.place[0] + direction[0] >= 0),
+          (cell.place[1] + direction[1] < maze.rows),
+          (cell.place[1] + direction[1] >= 0),
+          (cell.place[2] + direction[2] < maze.columns),
+          (cell.place[2] + direction[2] >= 0)
+        ]
+        if (!conditions.includes(false)) {
+          const neighbour = maze.maze[cell.place[0] + direction[0]][cell.place[1] + direction[1]][cell.place[2] + direction[2]];
+          if (!visited.includes(neighbour)) {
+            return true;
           }
         }
-      } else {
-        return true;
       }
       return false;
     }
@@ -102,7 +98,7 @@ class DFSMaze3dGenerator extends Maze3dGenerator {
 
     }
     this.maze.goal = visited.pop().place;
-    return this.maze;
+    return this.maze.maze;
 
 
   }

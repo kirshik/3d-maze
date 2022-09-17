@@ -48,7 +48,7 @@ class Maze3d {
           } else if (i === this.goal[0] && j === this.goal[1] && k === this.goal[2]) {
             table += "G";
           } else if (cell.up && cell.down) {
-            table += "\u21c5"
+            table += "\u2b65"
           } else if (cell.up) {
             table += '\u2191'
           } else if (cell.down) {
