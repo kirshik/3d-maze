@@ -98,7 +98,7 @@ class DFSMaze3dGenerator extends Maze3dGenerator {
 
     }
     this.maze.goal = visited.pop().place;
-    return this.maze.maze;
+    return this.maze;
 
 
   }

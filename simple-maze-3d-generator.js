@@ -27,8 +27,8 @@ class SimpleMaze3dGenerator extends Maze3dGenerator {
           const backwardCell = this.maze.maze[i][j - 1 > 0 ? j - 1 : j][k];
 
           // randomly creating cells walls
-          cell.up = (i === 0 || i === 1) ? 1 : Math.round(Math.random(1));
-          cell.down = (i === (this.maze.dimensions - 1) || i === (this.maze.dimensions - 2)) ? 1 : Math.round(Math.random(1));
+          cell.up = (i === 0) ? 1 : Math.round(Math.random(1));
+          cell.down = (i === (this.maze.dimensions - 1)) ? 1 : Math.round(Math.random(1));
           cell.left = k === 0 ? 1 : Math.round(Math.random(1));
           cell.right = k === (this.maze.columns - 1) ? 1 : Math.round(Math.random(1));
           cell.forward = j === 0 ? 1 : Math.round(Math.random(1));
