@@ -1,4 +1,22 @@
 //Prim's algorithm (also known as JarnÃ­k's algorithm) is a greedy algorithm that finds a minimum spanning tree for a weighted undirected graph.
+
+//Psudo code for prim's algorithm
+
+// generate a maze full of walls
+// Select a random cell S - the beginning of the algorithm
+// designate S as part of the maze and add to list - stack
+// while list - stack is not empty:
+//      select a random cell Z from the list - stack
+
+//      take a random unvisited neighbor X of cell Z
+
+//      if Z has no unvisited neighbor, remove it from stack - list
+
+//      If X is adjacent to an existing maze in multiple places(shares multiple walls with the maze), break one random wall
+
+//      Designate X as part of the maze and add to the list - stack
+
+
 import Maze3dGenerator from "./maze-3d-generator.js";
 
 class PrimsMaze3dGenerator extends Maze3dGenerator {
@@ -24,7 +42,7 @@ class PrimsMaze3dGenerator extends Maze3dGenerator {
       const neighbour = map.get(key)
       return [key, neighbour];
     }
-    function unvisitedNeighbours(cell, maze) {
+    function cellNeighbours(cell, maze) {
       let neighbours = new Map();
       for (const [key, direction] of directions.entries()) {
         const conditions = [
@@ -37,31 +55,29 @@ class PrimsMaze3dGenerator extends Maze3dGenerator {
         ]
         if (!conditions.includes(false)) {
           const neighbour = maze.maze[cell.place[0] + direction[0]][cell.place[1] + direction[1]][cell.place[2] + direction[2]];
-          if (!visited.includes(neighbour)) {
-            neighbours.set(key, neighbour)
-          }
+          neighbours.set(key, neighbour);
         }
       }
       return neighbours;
     }
+    function unvisitedNeighbours(cell, maze) {
+      let neighbours = new Map();
+      const list = cellNeighbours(cell, maze);
+      for (const [key, neighbour] of list) {
+        if (!visited.includes(neighbour)) {
+          neighbours.set(key, neighbour)
+        }
+      }
+      return neighbours;
+    };
     function breakRandomMazeWalls(cell, maze) {
       let neighbours = new Map();
-      for (const [key, direction] of directions.entries()) {
-        const conditions = [
-          (cell.place[0] + direction[0] < maze.dimensions),
-          (cell.place[0] + direction[0] >= 0),
-          (cell.place[1] + direction[1] < maze.rows),
-          (cell.place[1] + direction[1] >= 0),
-          (cell.place[2] + direction[2] < maze.columns),
-          (cell.place[2] + direction[2] >= 0)
-        ]
-        if (!conditions.includes(false)) {
-          const neighbour = maze.maze[cell.place[0] + direction[0]][cell.place[1] + direction[1]][cell.place[2] + direction[2]];
-          if (visited.includes(neighbour)) {
-            neighbours.set(key, neighbour)
-          }
+      const list = cellNeighbours(cell, maze);
+      for (const [key, neighbour] of list) {
+        if (visited.includes(neighbour)) {
+          neighbours.set(key, neighbour)
         }
-      };
+      }
       if (neighbours.size > 0) {
         const [key, mazeCell] = getRandomFromMap(neighbours);
         switch (key) {
