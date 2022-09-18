@@ -1,4 +1,4 @@
-import DFSMaze3dGenerator from "./dfc-maze-3d-generator.js";
+import DFSMaze3dGenerator from "./dfs-maze-3d-generator.js";
 import Maze3d from "./maze3d.js";
 import SimpleMaze3dGenerator from "./simple-maze-3d-generator.js";
 

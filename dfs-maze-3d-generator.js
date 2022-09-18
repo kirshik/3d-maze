@@ -10,6 +10,12 @@ class DFSMaze3dGenerator extends Maze3dGenerator {
     function randomInt(max) {
       return Math.floor(Math.random() * max);
     }
+    function getRandomFromMap(map) {
+      let keys = Array.from(map.keys());
+      const key = keys[Math.floor(Math.random() * keys.length)];
+      const neighbour = map.get(key)
+      return [key, neighbour];
+    }
     function isUnvisitedNeighbours(cell, maze) {
       let neighbours = new Map();
       for (const [key, direction] of directions.entries()) {
@@ -31,13 +37,12 @@ class DFSMaze3dGenerator extends Maze3dGenerator {
       return neighbours;
     }
     let directions = new Map([
-      ["up", [1, 0, 0]],
-      ["down", [-1, 0, 0]],
       ["forward", [0, 1, 0]],
       ["backward", [0, -1, 0]],
       ["right", [0, 0, 1]],
       ["left", [0, 0, -1]],
-
+      ["up", [1, 0, 0]],
+      ["down", [-1, 0, 0]]
     ])
     let stack = [];
     let start = [randomInt(this.maze.dimensions), randomInt(this.maze.rows), randomInt(this.maze.columns)];
@@ -49,38 +54,36 @@ class DFSMaze3dGenerator extends Maze3dGenerator {
     while (stack.length > 0) {
       const unvisitedNeighbours = isUnvisitedNeighbours(currentCell, this.maze);
       if (unvisitedNeighbours.size > 0) {
-        for (const [key, neighbour] of unvisitedNeighbours.entries()) {
-          switch (key) {
-            case "up":
-              currentCell.down = 0;
-              neighbour.up = 0;
-              break;
-            case "down":
-              currentCell.up = 0;
-              neighbour.down = 0;
-              break;
-            case "forward":
-              currentCell.forward = 0;
-              neighbour.backward = 0;
-              break;
-            case "backward":
-              currentCell.backward = 0;
-              neighbour.forward = 0;
-              break;
-            case "right":
-              currentCell.right = 0;
-              neighbour.left = 0;
-              break
-            case "left":
-              currentCell.left = 0;
-              neighbour.right = 0;
-              break;
-          }
-          visited.push(neighbour);
-          stack.push(neighbour);
-          currentCell = neighbour;
-          break;
+        const [key, neighbour] = getRandomFromMap(unvisitedNeighbours);
+        switch (key) {
+          case "up":
+            currentCell.down = 0;
+            neighbour.up = 0;
+            break;
+          case "down":
+            currentCell.up = 0;
+            neighbour.down = 0;
+            break;
+          case "forward":
+            currentCell.forward = 0;
+            neighbour.backward = 0;
+            break;
+          case "backward":
+            currentCell.backward = 0;
+            neighbour.forward = 0;
+            break;
+          case "right":
+            currentCell.right = 0;
+            neighbour.left = 0;
+            break
+          case "left":
+            currentCell.left = 0;
+            neighbour.right = 0;
+            break;
         }
+        visited.push(neighbour);
+        stack.push(neighbour);
+        currentCell = neighbour;
       } else {
         currentCell = stack.pop();
       }
