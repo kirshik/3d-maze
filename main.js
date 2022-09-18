@@ -2,13 +2,15 @@ import DFSMaze3dGenerator from "./dfc-maze-3d-generator.js";
 import Maze3d from "./maze3d.js";
 import SimpleMaze3dGenerator from "./simple-maze-3d-generator.js";
 
-let m1 = new Maze3d(4, 4, 3);
-m1.goal = [0, 0, 0];
-m1.start = [2, 3, 3];
+let m1 = new Maze3d(2, 2, 2);
+
 // console.log(m1.toString())
 // console.log(m1.maze)
+
+
 let sg = new SimpleMaze3dGenerator(m1);
 console.log(sg.generate().toString());
+console.log(sg.maze.maze)
 // let dfs = new DFSMaze3dGenerator(m1);
 // console.log()
 //
