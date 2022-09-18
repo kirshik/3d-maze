@@ -1,3 +1,4 @@
+
 import Maze3dGenerator from "./maze-3d-generator.js";
 
 class DFSMaze3dGenerator extends Maze3dGenerator {
@@ -38,7 +39,7 @@ class DFSMaze3dGenerator extends Maze3dGenerator {
       ["left", [0, 0, -1]],
 
     ])
-    let stack = new Array();
+    let stack = [];
     let start = [randomInt(this.maze.dimensions), randomInt(this.maze.rows), randomInt(this.maze.columns)];
     this.maze.start = start;
     let currentCell = this.maze.maze[start[0]][start[1]][start[2]];
@@ -47,16 +48,16 @@ class DFSMaze3dGenerator extends Maze3dGenerator {
     visited.push(currentCell);
     while (stack.length > 0) {
       const unvisitedNeighbours = isUnvisitedNeighbours(currentCell, this.maze);
-      if (unvisitedNeighbours.length > 0) {
+      if (unvisitedNeighbours.size > 0) {
         for (const [key, neighbour] of unvisitedNeighbours.entries()) {
           switch (key) {
             case "up":
-              currentCell.up = 0;
-              neighbour.down = 0;
-              break;
-            case "down":
               currentCell.down = 0;
               neighbour.up = 0;
+              break;
+            case "down":
+              currentCell.up = 0;
+              neighbour.down = 0;
               break;
             case "forward":
               currentCell.forward = 0;
@@ -83,9 +84,9 @@ class DFSMaze3dGenerator extends Maze3dGenerator {
       } else {
         currentCell = stack.pop();
       }
-      this.maze.goal = visited.pop().place;
-      return this.maze;
     }
+    this.maze.goal = visited.pop().place;
+    return this.maze;
 
   }
 
