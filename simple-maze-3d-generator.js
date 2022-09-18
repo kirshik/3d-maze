@@ -53,10 +53,11 @@ class SimpleMaze3dGenerator extends Maze3dGenerator {
     // randomly create start and goal
     this.maze.start = [randomInt(this.maze.dimensions), randomInt(this.maze.rows), randomInt(this.maze.columns)];
     this.maze.goal = [randomInt(this.maze.dimensions), randomInt(this.maze.rows), randomInt(this.maze.columns)];
-    while (this.maze.start === this.maze.goal) {
+    // while start === goal
+    while (this.maze.start[0] === this.maze.goal[0] && this.maze.start[1] === this.maze.goal[1] && this.maze.start[2] === this.maze.goal[2]) {
       this.maze.goal = [randomInt(this.maze.dimensions), randomInt(this.maze.rows), randomInt(this.maze.columns)];
-    }
-    console.log(this.maze.toString())
+    };
+
 
     // carve a random path
     /**
@@ -72,7 +73,6 @@ class SimpleMaze3dGenerator extends Maze3dGenerator {
     let currCell = this.maze.maze[this.maze.start[0]][this.maze.start[1]][this.maze.start[2]]
     let nextCell;
     // while curr cell != goal cell
-    console.log(this.maze)
     while (currCell != this.maze.maze[this.maze.goal[0]][this.maze.goal[1]][this.maze.goal[2]]) {
       let num = randomInt(currCell.directionsNum);
 
@@ -85,8 +85,8 @@ class SimpleMaze3dGenerator extends Maze3dGenerator {
           nextCell = (currCell.place[0] + 1 < this.maze.dimensions) ? this.maze.maze[currCell.place[0] + 1][currCell.place[1]][currCell.place[2]] : {};
           if (nextCell.place !== undefined) {
             if (distanceBetweenCells(currCell.place, this.maze.goal) >= distanceBetweenCells(nextCell.place, this.maze.goal)) {
-              currCell.up = 0;
-              nextCell.down = 0;
+              currCell.down = 0;
+              nextCell.up = 0;
               currCell = nextCell;
             }
           }
@@ -96,8 +96,8 @@ class SimpleMaze3dGenerator extends Maze3dGenerator {
           nextCell = currCell.place[0] - 1 >= 0 ? this.maze.maze[currCell.place[0] - 1][currCell.place[1]][currCell.place[2]] : {};
           if (nextCell.place !== undefined) {
             if (distanceBetweenCells(currCell.place, this.maze.goal) >= distanceBetweenCells(nextCell.place, this.maze.goal)) {
-              currCell.down = 0;
-              nextCell.up = 0;
+              currCell.up = 0;
+              nextCell.down = 0;
               currCell = nextCell;
             }
           }
