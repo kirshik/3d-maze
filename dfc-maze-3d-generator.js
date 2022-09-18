@@ -10,7 +10,7 @@ class DFSMaze3dGenerator extends Maze3dGenerator {
       return Math.floor(Math.random() * max);
     }
     function isUnvisitedNeighbours(cell, maze) {
-      let neighbours = [];
+      let neighbours = new Map();
       for (const [key, direction] of directions.entries()) {
         const conditions = [
           (cell.place[0] + direction[0] < maze.dimensions),
