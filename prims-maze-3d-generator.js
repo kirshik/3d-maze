@@ -18,14 +18,15 @@ class PrimsMaze3dGenerator extends Maze3dGenerator {
       ["right", [0, 0, 1]],
       ["left", [0, 0, -1]],
     ])
-    let start = [randomInt(this.maze.dimensions), randomInt(this.maze.rows), randomInt(this.maze.columns)];
-    this.maze.start = start;
-
     // let goal = [randomInt(this.maze.dimensions), randomInt(this.maze.rows), randomInt(this.maze.columns)];
     // this.maze.goal = goal;
-
-
-    function isUnvisitedNeighbours(cell, maze) {
+    function getRandomFromMap(map) {
+      let keys = Array.from(map.keys());
+      const key = keys[Math.floor(Math.random() * keys.length)];
+      const neighbour = map.get(key)
+      return [key, neighbour];
+    }
+    function unvisitedNeighbours(cell, maze) {
       let neighbours = new Map();
       for (const [key, direction] of directions.entries()) {
         const conditions = [
@@ -45,6 +46,26 @@ class PrimsMaze3dGenerator extends Maze3dGenerator {
       }
       return neighbours;
     }
+    let stack = [];
+    let start = [randomInt(this.maze.dimensions), randomInt(this.maze.rows), randomInt(this.maze.columns)];
+    this.maze.start = start;
+    currCell = this.maze.maze[start[0]][start[1]][start[2]];
+    stack.push(currCell);
+    while (stack.length > 0) {
+      let unvisitedNeighboursMap = unvisitedNeighbours(currCell, this.maze);
+      if (unvisitedNeighboursMap.size > 0) {
+        getRandomFromMap(unvisitedNeighboursMap){
+
+        }
+      } else {
+        stack.splice(indexOf(currCell), 1);
+
+      }
+
+    }
+
+
+
 
     return this.maze;
   };
