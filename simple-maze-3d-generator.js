@@ -53,11 +53,10 @@ class SimpleMaze3dGenerator extends Maze3dGenerator {
     // randomly create start and goal
     this.maze.start = [randomInt(this.maze.dimensions), randomInt(this.maze.rows), randomInt(this.maze.columns)];
     this.maze.goal = [randomInt(this.maze.dimensions), randomInt(this.maze.rows), randomInt(this.maze.columns)];
-    // while start === goal
+    // while start
     while (this.maze.start[0] === this.maze.goal[0] && this.maze.start[1] === this.maze.goal[1] && this.maze.start[2] === this.maze.goal[2]) {
       this.maze.goal = [randomInt(this.maze.dimensions), randomInt(this.maze.rows), randomInt(this.maze.columns)];
     };
-
 
     // carve a random path
     /**
