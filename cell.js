@@ -1,3 +1,6 @@
+/**
+ * class Cell represent cell of 3d maze
+ */
 class Cell {
   #directionsNum = 6;
   /**

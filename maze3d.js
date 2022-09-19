@@ -1,8 +1,18 @@
 import Cell from "./cell.js";
 
-
+/**
+ * class Maze3d represent 3d maze
+ */
 class Maze3d {
 
+  /**
+   * constructor gets the users preferences for rows,
+   * columns and dimensions and creates 3d maze where each cell
+   * has all the walls
+   * @param {number} rows 
+   * @param {number} columns 
+   * @param {number} dimensions 
+   */
   constructor(rows, columns, dimensions) {
     this.dimensions = dimensions;
     this.rows = rows;
@@ -11,10 +21,11 @@ class Maze3d {
     this.goal;
     this.maze = new Array();
 
-
-    //test
+    // -------------------------------------------------------------
+    //test maze
     // this.maze = [[[new Cell([0, 0, 0], 1, 1, 0, 1, 1, 0), new Cell([0, 0, 1], 1, 1, 1, 1, 0)], [new Cell([0, 1, 0]), new Cell([0, 1, 1])]],
     // [[new Cell([1, 0, 0]), new Cell([1, 0, 1])], [new Cell([1, 1, 0]), new Cell([1, 1, 1])]]];
+    // -------------------------------------------------------------
 
     for (let i = 0; i < this.dimensions; i++) {
       let board = [];
@@ -30,6 +41,10 @@ class Maze3d {
     }
 
   }
+
+  /**
+   * @returns console representation of the maze
+   */
   toString() {
     let total = ''
     for (let i = 0; i < this.dimensions; i++) {
