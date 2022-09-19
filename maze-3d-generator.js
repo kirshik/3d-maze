@@ -19,12 +19,28 @@ class Maze3dGenerator {
       ["left", [0, 0, -1]],
     ])
   }
+
+  /**
+   * Abstract method represents random maze generator 
+   */
   generate() {
     throw new Error("method must be implemented");
   }
+
+  /**
+   * @param {number} max 
+   * @returns random number from 0 to max
+   */
   randomInt(max) {
     return Math.floor(Math.random() * max);
   }
+
+  /**
+   * function to determine all cell neighbors and their directions 
+   * @param {Cell} cell 
+   * @param {Maze3d} maze 
+   * @returns Map of all cell neighbours 
+   */
   cellNeighbours(cell, maze) {
     let neighbours = new Map();
     for (const [key, direction] of this.directions.entries()) {
@@ -43,12 +59,57 @@ class Maze3dGenerator {
     }
     return neighbours;
   }
+
+  /**
+   * a function to pick a random key-value of the map
+   * @param {Map} map 
+   * @returns Array [key, value]
+   */
   getRandomFromMap(map) {
     let keys = Array.from(map.keys());
     const key = keys[Math.floor(Math.random() * keys.length)];
     const neighbour = map.get(key)
     return [key, neighbour];
   }
+
+  /**
+   * a function that destroys the wall between two cells
+   * @param {string} key 
+   * @param {Cell} cell 
+   * @param {Cell} mazeCell 
+   */
+  breakWall(key, cell, mazeCell) {
+    switch (key) {
+      case "up":
+        cell.down = 0;
+        mazeCell.up = 0;
+        break;
+      case "down":
+        cell.up = 0;
+        mazeCell.down = 0;
+        break;
+      case "forward":
+        cell.forward = 0;
+        mazeCell.backward = 0;
+        break;
+      case "backward":
+        cell.backward = 0;
+        mazeCell.forward = 0;
+        break;
+      case "right":
+        cell.right = 0;
+        mazeCell.left = 0;
+        break
+      case "left":
+        cell.left = 0;
+        mazeCell.right = 0;
+        break;
+    }
+  }
+
+  /**
+   * @returns number rounded to tenths
+   */
   measureAlgorithmTime() {
     let startTime = performance.now();
     this.generate();

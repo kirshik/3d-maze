@@ -34,32 +34,7 @@ class DFSMaze3dGenerator extends Maze3dGenerator {
       const unvisitedNeighbours = this.unvisitedNeighbours(currentCell, this.maze, visited);
       if (unvisitedNeighbours.size > 0) {
         const [key, neighbour] = this.getRandomFromMap(unvisitedNeighbours);
-        switch (key) {
-          case "up":
-            currentCell.down = 0;
-            neighbour.up = 0;
-            break;
-          case "down":
-            currentCell.up = 0;
-            neighbour.down = 0;
-            break;
-          case "forward":
-            currentCell.forward = 0;
-            neighbour.backward = 0;
-            break;
-          case "backward":
-            currentCell.backward = 0;
-            neighbour.forward = 0;
-            break;
-          case "right":
-            currentCell.right = 0;
-            neighbour.left = 0;
-            break
-          case "left":
-            currentCell.left = 0;
-            neighbour.right = 0;
-            break;
-        }
+        this.breakWall(key, currentCell, neighbour);
         visited.push(neighbour);
         stack.push(neighbour);
         currentCell = neighbour;

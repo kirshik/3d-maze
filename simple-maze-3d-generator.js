@@ -74,38 +74,8 @@ class SimpleMaze3dGenerator extends Maze3dGenerator {
       // if distance between next randow cell and goal less then distance between current cell and
       // goal then make this move and broke the wall
       if (this.distanceBetweenCells(currCell.place, this.maze.goal) >= this.distanceBetweenCells(nextCell.place, this.maze.goal)) {
-        switch (key) {
-          case "up":
-            currCell.down = 0;
-            nextCell.up = 0;
-            currCell = nextCell;
-            break;
-          case "down":
-            currCell.up = 0;
-            nextCell.down = 0;
-            currCell = nextCell;
-            break;
-          case "forward":
-            currCell.forward = 0;
-            nextCell.backward = 0;
-            currCell = nextCell;
-            break;
-          case "backward":
-            currCell.backward = 0;
-            nextCell.forward = 0;
-            currCell = nextCell;
-            break;
-          case "right":
-            currCell.right = 0;
-            nextCell.left = 0;
-            currCell = nextCell;
-            break
-          case "left":
-            currCell.left = 0;
-            nextCell.right = 0;
-            currCell = nextCell;
-            break;
-        }
+        this.breakWall(key, currCell, nextCell);
+        currCell = nextCell;
       }
     }
     return this.maze;
