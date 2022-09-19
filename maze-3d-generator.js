@@ -1,5 +1,8 @@
 import Maze3d from "./maze3d.js";
 
+/**
+ * Abstract class represents any maze generator
+ */
 class Maze3dGenerator {
 
   /**
@@ -105,6 +108,15 @@ class Maze3dGenerator {
         mazeCell.right = 0;
         break;
     }
+  }
+
+  /**
+   * choose random cell in the board
+   * @param {Maze3d} maze 
+   * @returns Array of start/goal cell place
+   */
+  createRandomPoint(maze) {
+    return [this.randomInt(maze.dimensions), this.randomInt(maze.rows), this.randomInt(maze.columns)];
   }
 
   /**

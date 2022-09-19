@@ -1,7 +1,9 @@
 import Maze3dGenerator from "./maze-3d-generator.js";
 import Maze3d from "./maze3d.js";
 
-
+/**
+ * SimpleMaze3dGenerator represents random maze generator
+ */
 class SimpleMaze3dGenerator extends Maze3dGenerator {
   /**
    * @param {Maze3d} maze 
@@ -56,11 +58,11 @@ class SimpleMaze3dGenerator extends Maze3dGenerator {
 
 
     // randomly create start and goal
-    this.maze.start = [this.randomInt(this.maze.dimensions), this.randomInt(this.maze.rows), this.randomInt(this.maze.columns)];
-    this.maze.goal = [this.randomInt(this.maze.dimensions), this.randomInt(this.maze.rows), this.randomInt(this.maze.columns)];
+    this.maze.start = this.createRandomPoint(this.maze);
+    this.maze.goal = this.createRandomPoint(this.maze);
     // while start === goal
     while (this.maze.start[0] === this.maze.goal[0] && this.maze.start[1] === this.maze.goal[1] && this.maze.start[2] === this.maze.goal[2]) {
-      this.maze.goal = [this.randomInt(this.maze.dimensions), this.randomInt(this.maze.rows), this.randomInt(this.maze.columns)];
+      this.maze.goal = this.createRandomPoint(this.maze);
     };
 
     // carve a random path

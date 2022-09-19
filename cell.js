@@ -20,6 +20,8 @@ class Cell {
     this.place = place;
 
   }
+
+
   get directionsNum() {
     return this.#directionsNum;
   }

@@ -21,12 +21,7 @@ class Maze3d {
     this.goal;
     this.maze = new Array();
 
-    // -------------------------------------------------------------
-    //test maze
-    // this.maze = [[[new Cell([0, 0, 0], 1, 1, 0, 1, 1, 0), new Cell([0, 0, 1], 1, 1, 1, 1, 0)], [new Cell([0, 1, 0]), new Cell([0, 1, 1])]],
-    // [[new Cell([1, 0, 0]), new Cell([1, 0, 1])], [new Cell([1, 1, 0]), new Cell([1, 1, 1])]]];
-    // -------------------------------------------------------------
-
+    // fill the maze with cells
     for (let i = 0; i < this.dimensions; i++) {
       let board = [];
       for (let j = 0; j < this.rows; j++) {

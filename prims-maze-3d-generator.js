@@ -85,7 +85,7 @@ class PrimsMaze3dGenerator extends Maze3dGenerator {
     let visited = [];
     let list = [];
     // pick start cell randomly
-    let start = [this.randomInt(this.maze.dimensions), this.randomInt(this.maze.rows), this.randomInt(this.maze.columns)];
+    let start = this.createRandomPoint(this.maze);
     this.maze.start = start;
     // make currCell start cell
     let currCell = this.maze.maze[start[0]][start[1]][start[2]];
