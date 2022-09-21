@@ -1,3 +1,5 @@
+import SearchNode from "./node.js";
+import Node from "./node.js";
 import State from "./state.js";
 
 /**
@@ -10,14 +12,14 @@ class BFS {
   /**
    * function to output solver steps
    * @param {State.js} initialState 
-   * @param {State.js} node 
+   * @param {SearchNode.js} node 
    * @returns array of state objects
    */
   #solution(initialState, node) {
     let steps = [];
-    while (node.get(2) !== undefined) {
-      steps.push(node.get(1));
-      node = node.get(2);
+    while (node.previousNode !== undefined) {
+      steps.push(node.state);
+      node = node.previousNode;
     }
     steps.push(initialState);
     return steps.reverse();
@@ -30,8 +32,8 @@ class BFS {
    * @param {State} action 
    * @returns Map
    */
-  #setChildNode(problem, node, action) {
-    const childNode = new Map([[1, action], [2, node]]);
+  #setChildNode(node, action) {
+    const childNode = new SearchNode(action, node)
     return childNode;
   }
 
@@ -43,7 +45,7 @@ class BFS {
    */
   #isIncludes(data, obj) {
     for (const node of data) {
-      if ((data instanceof Set ? node : node.get(1)).equals(obj.get(1))) {
+      if ((data instanceof Set ? node : node.state).equals(obj.state)) {
         return true
       }
     }
@@ -57,9 +59,13 @@ class BFS {
    * @returns false or array of state objects
    */
   search(problem) {
-    let node = new Map([[1, problem.initialState], [2, undefined]]);
+    let node = new SearchNode(problem.initialState, undefined)
 
-    if (node.get(1) === problem.goalTest(node.get(1))) {
+
+    // let node = new Map([[1, problem.initialState], [2, undefined]]);
+
+
+    if (node.state === problem.goalTest(node.state)) {
       return this.#solution(problem.initialState, node);
     }
 
@@ -73,16 +79,16 @@ class BFS {
       // pick shallowest node from frontier
       node = frontier.pop();
       // add node state to explored
-      visited.add(node.get(1));
+      visited.add(node.state);
 
-      for (const action of problem.getStateTransitions(node.get(1))) {
+      for (const action of problem.getStateTransitions(node.state)) {
         // count number of evaluated
         this.#numberOfNodesEvaluated += 1;
         // node
-        const child = this.#setChildNode(problem, node, action);
+        const child = this.#setChildNode(node, action);
 
         if (!this.#isIncludes(frontier, child) && !this.#isIncludes(visited, child)) {
-          if (problem.goalTest(child.get(1))) {
+          if (problem.goalTest(child.state)) {
             return this.#solution(problem.initialState, child);
           }
           frontier.push(child)
