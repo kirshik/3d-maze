@@ -6,7 +6,7 @@ import BFS from "./search-algorithms/breadth-first-search.js";
 import SimpleMaze3dGenerator from "./simple-maze-3d-generator.js";
 
 
-let m1 = new Maze3d(2, 2, 2);
+let m1 = new Maze3d(3, 3, 3);
 
 
 let dfs = new DFSMaze3dGenerator(m1);

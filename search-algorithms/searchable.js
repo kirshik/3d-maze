@@ -14,7 +14,7 @@ class Searchable {
     throw new Error("goalState is abstract method");
   }
   goalTest(nodeState) {
-    if (!(nodeState.toString() === this.goalState.toString())) {
+    if (!(nodeState.equals(this.goalState))) {
       return false;
     }
     return true;

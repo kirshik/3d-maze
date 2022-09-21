@@ -1,10 +1,18 @@
+import State from "./state.js";
 
-
+/**
+ * class represent BFS solver of a 3d maze 
+ */
 class BFS {
-  #numberOfNodesEvaluate = 0;
+  #numberOfNodesEvaluated = 0;
   constructor() {
   }
-
+  /**
+   * function to output solver steps
+   * @param {State.js} initialState 
+   * @param {State.js} node 
+   * @returns array of state objects
+   */
   #solution(initialState, node) {
     let steps = [];
     while (node.get(2) !== undefined) {
@@ -14,45 +22,66 @@ class BFS {
     steps.push(initialState);
     return steps.reverse();
   }
+
+  /**
+   * function to create a new child node
+   * @param {Searchable} problem 
+   * @param {State} node 
+   * @param {State} action 
+   * @returns Map
+   */
   #setChildNode(problem, node, action) {
     const childNode = new Map([[1, action], [2, node]]);
     return childNode;
   }
-  #includesFrontier(frontier, obj) {
-    for (const node of frontier) {
-      if (node.get(1).equals(obj.get(1))) {
+
+  /**
+   * a function to determine if an object is part of the data
+   * @param {Array[State]} frontier 
+   * @param {Map} obj 
+   * @returns bool
+   */
+  #isIncludes(data, obj) {
+    for (const node of data) {
+      if ((data instanceof Set ? node : node.get(1)).equals(obj.get(1))) {
         return true
       }
     }
     return false;
   }
-  #includesVisited(visited, obj) {
-    for (const node of visited) {
-      if (node.equals(obj.get(1))) {
-        return true
-      }
-    }
-    return false;
-  }
+
+
+  /**
+   * 3d maze solution search function
+   * @param {Searchable} problem 
+   * @returns false or array of state objects
+   */
   search(problem) {
     let node = new Map([[1, problem.initialState], [2, undefined]]);
+
     if (node.get(1) === problem.goalTest(node.get(1))) {
       return this.#solution(problem.initialState, node);
     }
-    let frontier = []; // queue
+
+    // queue
+    let frontier = [];
     let visited = new Set();
 
     frontier.push(node);
 
     while (frontier.length > 0) {
-      node = frontier.pop(); // pick shallowest node from frontier
+      // pick shallowest node from frontier
+      node = frontier.pop();
       // add node state to explored
       visited.add(node.get(1));
+
       for (const action of problem.getStateTransitions(node.get(1))) {
-        this.#numberOfNodesEvaluate += 1;
-        const child = this.#setChildNode(problem, node, action); // node
-        // if (!frontier.includes(child) && !visited.has(child.get(1).toString())) {
-        if (!this.#includesFrontier(frontier, child) && !this.#includesVisited(visited, child)) {
+        // count number of evaluated
+        this.#numberOfNodesEvaluated += 1;
+        // node
+        const child = this.#setChildNode(problem, node, action);
+
+        if (!this.#isIncludes(frontier, child) && !this.#isIncludes(visited, child)) {
           if (problem.goalTest(child.get(1))) {
             return this.#solution(problem.initialState, child);
           }
@@ -62,8 +91,12 @@ class BFS {
     }
     return false;
   }
+
+  /**
+   * @returns number 
+   */
   getNumberOfNodesEvaluated() {
-    return this.#numberOfNodesEvaluate;
+    return this.#numberOfNodesEvaluated;
   }
 
 }
