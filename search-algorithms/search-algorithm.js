@@ -18,10 +18,10 @@ class SearchAlgorithm {
   #solution(initialState, node) {
     let steps = [];
     while (node.previousNode !== undefined) {
-      steps.push(node.state);
+      steps.push(node.state.toString());
       node = node.previousNode;
     }
-    steps.push(initialState);
+    steps.push(initialState.toString());
     return steps.reverse();
   }
 
