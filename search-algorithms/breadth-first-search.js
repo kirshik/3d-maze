@@ -28,7 +28,7 @@ class BFS {
   /**
    * function to create a new child node
    * @param {Searchable} problem 
-   * @param {State} node 
+   * @param {SearchNode} node 
    * @param {State} action 
    * @returns Map
    */
@@ -40,7 +40,7 @@ class BFS {
   /**
    * a function to determine if an object is part of the data
    * @param {Array[State]} frontier 
-   * @param {Map} obj 
+   * @param {SearchNode} obj 
    * @returns bool
    */
   #isIncludes(data, obj) {
