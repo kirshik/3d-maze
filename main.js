@@ -7,7 +7,7 @@ import DFS from "./search-algorithms/depth-first-search-algorithm.js";
 import SimpleMaze3dGenerator from "./simple-maze-3d-generator.js";
 
 
-let m1 = new Maze3d(10, 10, 4);
+let m1 = new Maze3d(5, 5, 4);
 
 
 let dfs = new DFSMaze3dGenerator(m1);
