@@ -39,13 +39,23 @@ class SearchAlgorithm {
     }
     return false;
   }
+  /**
+ * function to create a new child node
+ * @param {SearchNode} node 
+ * @param {State} action 
+ * @returns Map
+ */
+  #setChildNode(node, action) {
+    const childNode = new SearchNode(action, node)
+    return childNode;
+  }
 
   /**
    * 3d maze solution search function
    * @param {Searchable} problem 
    * @returns false or array of state objects
    */
-  search(problem, frontier, setChildNode, pushNode, isIncludes, removeNode) {
+  search(problem, frontier, pushNode, isIncludes, removeNode) {
     let node = new SearchNode(problem.initialState, undefined)
     // queue
     let visited = new Set();
@@ -69,7 +79,7 @@ class SearchAlgorithm {
         // count number of evaluated
         this.#numberOfNodesEvaluated += 1;
         // node
-        const child = setChildNode(node, action);
+        const child = this.#setChildNode(node, action);
 
         if (!isIncludes(frontier, child) && !this.#isIncludes(visited, child)) {
           if (problem.goalTest(child.state)) {

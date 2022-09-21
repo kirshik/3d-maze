@@ -11,17 +11,6 @@ class BFS extends SearchAlgorithm {
   }
 
   /**
-   * function to create a new child node
-   * @param {SearchNode} node 
-   * @param {State} action 
-   * @returns Map
-   */
-  #setChildNode(node, action) {
-    const childNode = new SearchNode(action, node)
-    return childNode;
-  }
-
-  /**
    * a function to determine if an object is part of the data
    * @param {Array[State]} frontier 
    * @param {SearchNode} obj 
@@ -37,7 +26,7 @@ class BFS extends SearchAlgorithm {
   }
 
   #pushNode = (dataStructure, node) => { dataStructure.push(node) };
-  #removeNode = (frontier, node) => { return frontier.pop() };
+  #removeNode = (frontier, node) => { return frontier.shift() };
 
   /**
    * 3d maze solution search function
@@ -46,7 +35,7 @@ class BFS extends SearchAlgorithm {
    */
   search(problem) {
     let frontier = [];
-    return super.search(problem, frontier, this.#setChildNode, this.#pushNode, this.#isFrontierIncludes, this.#removeNode);
+    return super.search(problem, frontier, this.#pushNode, this.#isFrontierIncludes, this.#removeNode);
   }
 
 
