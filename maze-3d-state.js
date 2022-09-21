@@ -9,6 +9,9 @@ class Maze3dState extends State {
   get place() {
     return this.#place;
   }
+  toString() {
+    return this.#place;
+  }
 }
 
 export default Maze3dState;

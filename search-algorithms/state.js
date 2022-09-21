@@ -12,6 +12,9 @@ class State {
   equals(other) {
     return other instanceof State && this.#key === other.#key;
   }
+  toString() {
+    throw new Error("toString is abstract method");
+  }
 }
 
 export default State;
