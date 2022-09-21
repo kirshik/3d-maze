@@ -17,7 +17,7 @@ class DFS extends SearchAlgorithm {
    * @param {SearchNode} obj 
    * @returns bool
    */
-  #isFrontierIncludes(data, obj) {
+  isIncludesFrontier(data, obj) {
     for (const node of data) {
       if ((data instanceof Set ? node : node.state).equals(obj.state)) {
         return true
@@ -26,19 +26,11 @@ class DFS extends SearchAlgorithm {
     return false;
   }
 
-  #pushNode = (dataStructure, node) => { dataStructure.push(node) };
-  #removeNode = (frontier, node) => { return frontier.pop() };
+  pushNode(dataStructure, node) { dataStructure.push(node) };
 
-  /**
-   * 3d maze solution search function
-   * @param {Searchable} problem 
-   * @returns false or array of state objects
-   */
-  search(problem) {
-    let frontier = [];
-    return super.search(problem, frontier, this.#pushNode, this.#isFrontierIncludes, this.#removeNode);
-  }
+  removeNode(frontier, node) { return frontier.pop() };
 
+  frontier() { return new Array(); };
 
 }
 export default DFS;

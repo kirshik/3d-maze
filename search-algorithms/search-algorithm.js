@@ -45,9 +45,21 @@ class SearchAlgorithm {
  * @param {State} action 
  * @returns Map
  */
-  #setChildNode(node, action) {
+  setChildNode(node, action) {
     const childNode = new SearchNode(action, node)
     return childNode;
+  }
+  frontier() {
+    throw new Error("frontier is abstract method");
+  }
+  pushNode(frontier, node) {
+    throw new Error("pushNodes is abstract method");
+  }
+  isIncludesFrontier(frontier, node) {
+    throw new Error("isIncludesFrontier is abstract method");
+  }
+  removeNode(frontier) {
+    throw new Error("removeNode is abstract method");
   }
 
   /**
@@ -55,13 +67,14 @@ class SearchAlgorithm {
    * @param {Searchable} problem 
    * @returns false or array of state objects
    */
-  search(problem, frontier, pushNode, isIncludes, removeNode) {
+  search(problem) {
     let node = new SearchNode(problem.initialState, undefined)
     // queue
+    let frontier = this.frontier();
     let visited = new Set();
 
     //
-    pushNode(frontier, node);
+    this.pushNode(frontier, node);
     //
 
 
@@ -71,7 +84,7 @@ class SearchAlgorithm {
 
     while (frontier.length > 0) {
       // pick shallowest node from frontier
-      node = removeNode(frontier);
+      node = this.removeNode(frontier);
       // add node state to explored
       visited.add(node.state);
 
@@ -79,13 +92,13 @@ class SearchAlgorithm {
         // count number of evaluated
         this.#numberOfNodesEvaluated += 1;
         // node
-        const child = this.#setChildNode(node, action);
+        const child = this.setChildNode(node, action);
 
-        if (!isIncludes(frontier, child) && !this.#isIncludes(visited, child)) {
+        if (!this.isIncludesFrontier(frontier, child) && !this.#isIncludes(visited, child)) {
           if (problem.goalTest(child.state)) {
             return this.#solution(problem.initialState, child);
           }
-          pushNode(frontier, child);
+          this.pushNode(frontier, child);
         }
       }
     }

@@ -16,7 +16,7 @@ class BFS extends SearchAlgorithm {
    * @param {SearchNode} obj 
    * @returns bool
    */
-  #isFrontierIncludes(data, obj) {
+  isIncludesFrontier(data, obj) {
     for (const node of data) {
       if ((data instanceof Set ? node : node.state).equals(obj.state)) {
         return true
@@ -25,8 +25,13 @@ class BFS extends SearchAlgorithm {
     return false;
   }
 
-  #pushNode = (dataStructure, node) => { dataStructure.push(node) };
-  #removeNode = (frontier, node) => { return frontier.shift() };
+  pushNode(dataStructure, node) { dataStructure.push(node) };
+
+  removeNode(frontier, node) { return frontier.shift() };
+
+  frontier() {
+    return new Array();
+  }
 
   /**
    * 3d maze solution search function
@@ -34,8 +39,7 @@ class BFS extends SearchAlgorithm {
    * @returns false or array of state objects
    */
   search(problem) {
-    let frontier = [];
-    return super.search(problem, frontier, this.#pushNode, this.#isFrontierIncludes, this.#removeNode);
+    return super.search(problem);
   }
 
 
