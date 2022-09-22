@@ -14,7 +14,7 @@ class SimpleMaze3dGenerator extends Maze3dGenerator {
   }
 
   /**
-   * find distance between point using sqrt((x1 - x2)**2 + (y1- y2)**2 ...)
+   * find distance between points using sqrt((x1 - x2)**2 + (y1- y2)**2 ...)
    * @param {Array} source 
    * @param {Array} target 
    */
