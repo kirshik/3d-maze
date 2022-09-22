@@ -4,14 +4,16 @@ import SearchAlgorithm from "./search-algorithm.js";
 
 //IN PROGRESS
 
-class AStar extends SearchAlgorithm {
+class AStar {
   #goal;
+  #numberOfNodesEvaluated = 0;
   constructor() {
-    super();
   }
 
   #heuristic(node, previousNode) {
-    const goal = this.#goal.place;
+    // bullshit, change it
+    const oldGoal = this.#goal;
+    const goal = oldGoal.place;
     const current = node.state.place;
     const previous = previousNode.state.place;
     const distanceCurrentNode = Math.sqrt((current[0] - goal[0]) ** 2 + (current[1] - goal[1]) ** 2 + (current[2] - goal[2]) ** 2);
@@ -78,11 +80,14 @@ class AStar extends SearchAlgorithm {
     while (frontier.size() > 0) {
       node = frontier.pop();
       visited.add(node.state);
+
+      console.log(node.state);
+
       if (problem.goalTest(node.state)) {
         return this.solution(problem.initialState, node);
       }
-
       for (const [action, cost] of this.successor(problem, node)) {
+        this.#numberOfNodesEvaluated += 1;
         const child = this.setChildNode(node, action, cost);
         if (!this.isIncludesFrontier(frontier, child) && !this.#isIncludes(visited, child)) {
           this.pushNode(frontier, child);
@@ -97,6 +102,9 @@ class AStar extends SearchAlgorithm {
       }
     };
     return false;
+  }
+  getNumberOfNodesEvaluated() {
+    return this.#numberOfNodesEvaluated;
   }
 }
 export default AStar;
