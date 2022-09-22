@@ -4,22 +4,31 @@ import SearchAlgorithm from "./search-algorithm.js";
 
 //IN PROGRESS
 
-class AStar {
+class AStar extends SearchAlgorithm {
   #goal;
   #numberOfNodesEvaluated = 0;
   constructor() {
   }
 
-  #heuristic(node, previousNode) {
+  #heuristic(node, previousNode, goalNode = this.goal) {
     // bullshit, change it
-    const oldGoal = this.#goal;
-    const goal = oldGoal.place;
+    const goal = goalNode.place;
     const current = node.state.place;
+    if (node.state.equals(goalNode)) {
+      return true;
+    }
     const previous = previousNode.state.place;
-    const distanceCurrentNode = Math.sqrt((current[0] - goal[0]) ** 2 + (current[1] - goal[1]) ** 2 + (current[2] - goal[2]) ** 2);
-    const distancePreviousNode = Math.sqrt((previous[0] - goal[0]) ** 2 + (previous[1] - goal[1]) ** 2 + (previous[2] - goal[2]) ** 2);
-    return distanceCurrentNode < distancePreviousNode;
+    //euclidean distance
+
+    // const distanceCurrentNode = Math.sqrt((current[0] - goal[0]) ** 2 + (current[1] - goal[1]) ** 2 + (current[2] - goal[2]) ** 2);
+    // const distancePreviousNode = Math.sqrt((previous[0] - goal[0]) ** 2 + (previous[1] - goal[1]) ** 2 + (previous[2] - goal[2]) ** 2);
+
+    //Manhattan distance
+    const distanceCurrentNode = Math.abs(current[0] - goal[0]) + Math.abs(current[1] - goal[1]) + Math.abs(current[2] - goal[2]);
+    const distancePreviousNode = Math.abs(previous[0] - goal[0]) + Math.abs(previous[1] - goal[1]) + Math.abs(previous[2] - goal[2]);
+    return distanceCurrentNode <= distancePreviousNode;
   }
+
   solution(initialState, node) {
     let steps = [];
     while (node.previousNode !== undefined) {
@@ -67,36 +76,37 @@ class AStar {
     return false;
 
   }
-  pushNode(frontier, child) {
-    frontier.push(child);
-  }
 
   search(problem) {
     this.#goal = problem.goalState;
     let node = new SearchNode(problem.initialState, undefined, 0);
     let visited = new Set();
-    let frontier = new PriorityQueue(this.#heuristic);
+    let frontier = new PriorityQueue(this.#goal, this.#heuristic);
     frontier.push(node);
     while (frontier.size() > 0) {
       node = frontier.pop();
       visited.add(node.state);
-
-      console.log(node.state);
-
       if (problem.goalTest(node.state)) {
         return this.solution(problem.initialState, node);
       }
       for (const [action, cost] of this.successor(problem, node)) {
         this.#numberOfNodesEvaluated += 1;
         const child = this.setChildNode(node, action, cost);
-        if (!this.isIncludesFrontier(frontier, child) && !this.#isIncludes(visited, child)) {
-          this.pushNode(frontier, child);
-        } else if (frontier.size() > 0) {
-          const lastNode = frontier.pop();
-          if (this.#heuristic(child, lastNode)) {
-            frontier.push(child);
-          } else {
-            frontier.push(lastNode)
+
+        if (!this.#isIncludes(visited, child)) {
+          if (!this.isIncludesFrontier(frontier, child)) {
+            if (action.equals(this.#goal)) {
+              const childNode = this.setChildNode(node, action);
+              return this.solution(problem.initialState, childNode);
+            }
+            this.pushNode(frontier, child);
+          } else if (frontier.size() > 0) {
+            const lastNode = frontier.pop();
+            if (this.#heuristic(child, lastNode)) {
+              frontier.push(child);
+            } else {
+              frontier.push(lastNode);
+            }
           }
         }
       }

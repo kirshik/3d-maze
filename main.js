@@ -8,7 +8,7 @@ import DFS from "./search-algorithms/depth-first-search-algorithm.js";
 import SimpleMaze3dGenerator from "./simple-maze-3d-generator.js";
 
 
-let m1 = new Maze3d(3, 3, 2);
+let m1 = new Maze3d(25, 25, 3);
 
 
 let dfs = new DFSMaze3dGenerator(m1);
@@ -22,13 +22,13 @@ const astar = new AStar();
 console.log(astar.search(adapter));
 console.log(astar.getNumberOfNodesEvaluated());
 
-// const bfs = new BFS();
-// console.log(bfs.search(adapter));
-// console.log(bfs.getNumberOfNodesEvaluated());
+const bfs = new BFS();
+bfs.search(adapter);
+console.log(bfs.getNumberOfNodesEvaluated());
 
-// const dfsObj = new DFS();
-// console.log(dfsObj.search(adapter));
-// console.log(dfsObj.getNumberOfNodesEvaluated());
+const dfsObj = new DFS();
+dfsObj.search(adapter);
+console.log(dfsObj.getNumberOfNodesEvaluated());
 
 
 

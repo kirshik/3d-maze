@@ -3,8 +3,9 @@ class PriorityQueue {
   #comparator
   #top
 
-  constructor(comparator = (a, b) => a > b) {
+  constructor(goal, comparator = (a, b) => a > b) {
     this.#heap = [];
+    this.goal = goal;
     this.#comparator = comparator;
     this.#top = 0;
   }
@@ -97,6 +98,10 @@ class PriorityQueue {
     } else {
       this.#heapifyDown(index);
     }
+  }
+
+  toString() {
+    return this.#heap;
   }
 }
 

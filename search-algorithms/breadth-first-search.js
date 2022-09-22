@@ -25,8 +25,6 @@ class BFS extends SearchAlgorithm {
     return false;
   }
 
-  pushNode(dataStructure, node) { dataStructure.push(node) };
-
   removeNode(frontier, node) { return frontier.shift() };
 
   frontier() {

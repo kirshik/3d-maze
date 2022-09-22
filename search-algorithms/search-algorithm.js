@@ -49,12 +49,14 @@ class SearchAlgorithm {
     const childNode = new SearchNode(action, node)
     return childNode;
   }
+
+  pushNode(dataStructure, node) { dataStructure.push(node) };
+
+  // abstract classes
   frontier() {
     throw new Error("frontier is abstract method");
   }
-  pushNode(frontier, node) {
-    throw new Error("pushNodes is abstract method");
-  }
+
   isIncludesFrontier(frontier, node) {
     throw new Error("isIncludesFrontier is abstract method");
   }
