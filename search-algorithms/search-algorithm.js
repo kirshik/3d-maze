@@ -31,7 +31,7 @@ class SearchAlgorithm {
  * @param {SearchNode} obj 
  * @returns bool
  */
-  #isIncludes(data, obj) {
+  isIncludes(data, obj) {
     for (const node of data) {
       if ((data instanceof Set ? node : node.state).equals(obj.state)) {
         return true
@@ -49,8 +49,32 @@ class SearchAlgorithm {
     const childNode = new SearchNode(action, node)
     return childNode;
   }
+  successor(problem, node) {
+    const actions = problem.getStateTransitions(node.state);
+    if (actions instanceof Map) {
+      return actions;
+    } else {
+      let newActions = new Map();
+      for (const action of actions) {
+        newActions.set(action, 0);
+      }
+      return newActions;
+    }
+  }
 
   pushNode(dataStructure, node) { dataStructure.push(node) };
+
+  forCondition(problem, frontier, child, visited) {
+    if (!this.isIncludesFrontier(frontier, child) && !this.isIncludes(visited, child)) {
+      if (problem.goalTest(child.state)) {
+        return this.#solution(problem.initialState, child);
+      }
+      this.pushNode(frontier, child);
+    }
+  }
+  frontierLength(frontier) {
+    return frontier.length;
+  }
 
   // abstract classes
   frontier() {
@@ -70,38 +94,30 @@ class SearchAlgorithm {
    * @returns false or array of state objects
    */
   search(problem) {
-    let node = new SearchNode(problem.initialState, undefined)
+    let node = new SearchNode(problem.initialState, undefined, 0)
     // queue
     let frontier = this.frontier();
     let visited = new Set();
-
-    //
     this.pushNode(frontier, node);
-    //
-
-
     if (node.state === problem.goalTest(node.state)) {
       return this.#solution(problem.initialState, node);
     }
-
-    while (frontier.length > 0) {
+    while (this.frontierLength(frontier) > 0) {
       // pick shallowest node from frontier
       node = this.removeNode(frontier);
       // add node state to explored
       visited.add(node.state);
 
-      for (const action of problem.getStateTransitions(node.state)) {
+      for (const [action, cost] of this.successor(problem, node)) {
         // count number of evaluated
         this.#numberOfNodesEvaluated += 1;
         // node
-        const child = this.setChildNode(node, action);
-
-        if (!this.isIncludesFrontier(frontier, child) && !this.#isIncludes(visited, child)) {
-          if (problem.goalTest(child.state)) {
-            return this.#solution(problem.initialState, child);
-          }
-          this.pushNode(frontier, child);
+        const child = this.setChildNode(node, action, cost);
+        const result = this.forCondition(problem, frontier, child, visited);
+        if (result instanceof Array) {
+          return result;
         }
+
       }
     }
     return false;

@@ -8,6 +8,7 @@ class AStar extends SearchAlgorithm {
   #goal;
   #numberOfNodesEvaluated = 0;
   constructor() {
+    super();
   }
 
   #heuristic(node, previousNode, goalNode = this.goal) {
@@ -57,14 +58,7 @@ class AStar extends SearchAlgorithm {
     childNode.cost = nextCost;
     return childNode;
   }
-  #isIncludes(data, obj) {
-    for (const node of data) {
-      if ((data instanceof Set ? node : node.state).equals(obj.state)) {
-        return true
-      }
-    }
-    return false;
-  }
+
   isIncludesFrontier(frontier, child) {
     let cache = frontier;
     const size = cache.size();
@@ -77,44 +71,33 @@ class AStar extends SearchAlgorithm {
 
   }
 
-  search(problem) {
-    this.#goal = problem.goalState;
-    let node = new SearchNode(problem.initialState, undefined, 0);
-    let visited = new Set();
-    let frontier = new PriorityQueue(this.#goal, this.#heuristic);
-    frontier.push(node);
-    while (frontier.size() > 0) {
-      node = frontier.pop();
-      visited.add(node.state);
-      if (problem.goalTest(node.state)) {
-        return this.solution(problem.initialState, node);
-      }
-      for (const [action, cost] of this.successor(problem, node)) {
-        this.#numberOfNodesEvaluated += 1;
-        const child = this.setChildNode(node, action, cost);
-
-        if (!this.#isIncludes(visited, child)) {
-          if (!this.isIncludesFrontier(frontier, child)) {
-            if (action.equals(this.#goal)) {
-              const childNode = this.setChildNode(node, action);
-              return this.solution(problem.initialState, childNode);
-            }
-            this.pushNode(frontier, child);
-          } else if (frontier.size() > 0) {
-            const lastNode = frontier.pop();
-            if (this.#heuristic(child, lastNode)) {
-              frontier.push(child);
-            } else {
-              frontier.push(lastNode);
-            }
-          }
+  forCondition(problem, frontier, child, visited) {
+    if (!this.isIncludes(visited, child)) {
+      if (!this.isIncludesFrontier(frontier, child)) {
+        if (problem.goalTest(child.state)) {
+          return this.solution(problem.initialState, child);
+        }
+        this.pushNode(frontier, child);
+      } else if (frontier.size() > 0) {
+        const lastNode = frontier.pop();
+        if (this.#heuristic(child, lastNode)) {
+          frontier.push(child);
+        } else {
+          frontier.push(lastNode);
         }
       }
-    };
-    return false;
+    }
   }
-  getNumberOfNodesEvaluated() {
-    return this.#numberOfNodesEvaluated;
+  frontier() {
+    return new PriorityQueue(this.#goal, this.#heuristic);
   }
+  frontierLength(frontier) { return frontier.size() }
+  removeNode(frontier, node) { return frontier.pop() };
+
+  search(problem) {
+    this.#goal = problem.goalState;
+    return super.search(problem);
+  }
+
 }
 export default AStar;

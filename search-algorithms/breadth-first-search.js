@@ -31,6 +31,7 @@ class BFS extends SearchAlgorithm {
     return new Array();
   }
 
+
   /**
    * 3d maze solution search function
    * @param {Searchable} problem 
