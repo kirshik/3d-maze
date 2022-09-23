@@ -7,7 +7,7 @@ import SearchDemo from "./search-demo.js";
     A*: 219
  */
 let searchDemo = new SearchDemo();
-console.log(searchDemo.run(50, 50, 5))
+console.log(searchDemo.run(5, 5, 3))
 
 
 
