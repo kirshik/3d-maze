@@ -22,9 +22,8 @@ class SearchDemo {
     const bfsSearch = this.#testSearchAlgorithm(new BFS(), adapter);
     const dfsSearch = this.#testSearchAlgorithm(new DFS(), adapter);
     const astarSearch = this.#testSearchAlgorithm(new AStar(), adapter);
-    console.log("Follow this path to solve: ", new AStar().search(adapter));
 
-    return `Matrix: \n${generatedMaze}\nSearch speed:\n BFS: ${bfsSearch}\n DFS: ${dfsSearch}\n A*: ${astarSearch}\n`
+    return `Search speed:\n BFS: ${bfsSearch}\n DFS: ${dfsSearch}\n A*: ${astarSearch}\n`
   }
 }
 export default SearchDemo;
