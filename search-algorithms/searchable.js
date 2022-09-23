@@ -4,6 +4,11 @@ class Searchable {
       throw new Error("Searchable is abstract class");
     }
   }
+
+  /**
+   * return data structure of actions  
+   * @param {State} nodeState 
+   */
   getStateTransitions(nodeState) {
     throw new Error("actions is abstract method");
   }

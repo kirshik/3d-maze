@@ -27,9 +27,7 @@ class BFS extends SearchAlgorithm {
 
   removeNode(frontier, node) { return frontier.shift() };
 
-  frontier() {
-    return new Array();
-  }
+  frontier() { return new Array() }
 
 
   /**

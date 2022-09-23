@@ -5,12 +5,20 @@ import SearchAlgorithm from "./search-algorithm.js";
 //IN PROGRESS
 
 class AStar extends SearchAlgorithm {
+
   #goal;
-  #numberOfNodesEvaluated = 0;
+
   constructor() {
     super();
   }
 
+  /**
+   * heuristic function h(s) that estimates how close state s is to the goal
+   * @param {SearchNode} node 
+   * @param {SearchNode} previousNode 
+   * @param {SearchNode} goalNode 
+   * @returns boolean
+   */
   #heuristic(node, previousNode, goalNode = this.goal) {
     // bullshit, change it
     const goal = goalNode.place;
@@ -30,28 +38,13 @@ class AStar extends SearchAlgorithm {
     return distanceCurrentNode <= distancePreviousNode;
   }
 
-  solution(initialState, node) {
-    let steps = [];
-    while (node.previousNode !== undefined) {
-      steps.push(node.state.toString());
-      node = node.previousNode;
-    }
-    steps.push(initialState.toString());
-    return steps.reverse();
-  }
-  successor(problem, node) {
-    const actions = problem.getStateTransitions(node.state);
-    if (actions instanceof Map) {
-      return actions;
-    } else {
-      let newActions = new Map();
-      for (const action of actions) {
-        newActions.set(action, 0);
-      }
-      return newActions;
-    }
-  }
-
+  /**
+   * function to create a new child node
+   * @param {SearchNode} node 
+   * @param {SearchNode} action 
+   * @param {Number} cost 
+   * @returns 
+   */
   setChildNode(node, action, cost) {
     const nextCost = node.cost + cost;
     const childNode = new SearchNode(action, node, cost)
@@ -59,6 +52,12 @@ class AStar extends SearchAlgorithm {
     return childNode;
   }
 
+  /**
+   * a function to determine if an object is part of the frontier
+   * @param {PriorityQueue} frontier 
+   * @param {SearchNode} child 
+   * @returns 
+   */
   isIncludesFrontier(frontier, child) {
     let cache = frontier;
     const size = cache.size();
@@ -71,6 +70,14 @@ class AStar extends SearchAlgorithm {
 
   }
 
+  /**
+   * conditions of for loop
+   * @param {Searchable} problem 
+   * @param {*} frontier 
+   * @param {SearchNode} child 
+   * @param {Set} visited 
+   * @returns sulution array / undefined
+   */
   forCondition(problem, frontier, child, visited) {
     if (!this.isIncludes(visited, child)) {
       if (!this.isIncludesFrontier(frontier, child)) {
@@ -88,16 +95,21 @@ class AStar extends SearchAlgorithm {
       }
     }
   }
-  frontier() {
-    return new PriorityQueue(this.#goal, this.#heuristic);
-  }
-  frontierLength(frontier) { return frontier.size() }
+  frontier() { return new PriorityQueue(this.#goal, this.#heuristic) };
+
+  frontierLength(frontier) { return frontier.size() };
+
   removeNode(frontier, node) { return frontier.pop() };
 
+  /**
+   * 3d maze solution search function
+   * @param {Searchable} problem 
+   * @returns false / array of state objects
+   */
   search(problem) {
     this.#goal = problem.goalState;
     return super.search(problem);
-  }
+  };
 
 }
 export default AStar;

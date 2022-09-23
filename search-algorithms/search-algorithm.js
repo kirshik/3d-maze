@@ -1,4 +1,5 @@
 import SearchNode from "./node.js";
+import Searchable from "./searchable.js";
 import State from "./state.js";
 
 
@@ -15,7 +16,7 @@ class SearchAlgorithm {
  * @param {SearchNode.js} node 
  * @returns array of state objects
  */
-  #solution(initialState, node) {
+  solution(initialState, node) {
     let steps = [];
     while (node.previousNode !== undefined) {
       steps.push(node.state.toString());
@@ -49,6 +50,13 @@ class SearchAlgorithm {
     const childNode = new SearchNode(action, node)
     return childNode;
   }
+
+  /**
+   * transition function
+   * @param {Searchable} problem 
+   * @param {SearchNode} node 
+   * @returns 
+   */
   successor(problem, node) {
     const actions = problem.getStateTransitions(node.state);
     if (actions instanceof Map) {
@@ -64,14 +72,27 @@ class SearchAlgorithm {
 
   pushNode(dataStructure, node) { dataStructure.push(node) };
 
+  /**
+   * conditions of for loop
+   * depends on the algorithm
+   * @param {Searchable} problem 
+   * @param {*} frontier 
+   * @param {SearchNode} child 
+   * @param {Set} visited 
+   * @returns sulution array / undefined
+   */
   forCondition(problem, frontier, child, visited) {
     if (!this.isIncludesFrontier(frontier, child) && !this.isIncludes(visited, child)) {
       if (problem.goalTest(child.state)) {
-        return this.#solution(problem.initialState, child);
+        return this.solution(problem.initialState, child);
       }
       this.pushNode(frontier, child);
     }
   }
+
+  /**
+   * length or size of frontier
+   */
   frontierLength(frontier) {
     return frontier.length;
   }
@@ -100,7 +121,7 @@ class SearchAlgorithm {
     let visited = new Set();
     this.pushNode(frontier, node);
     if (node.state === problem.goalTest(node.state)) {
-      return this.#solution(problem.initialState, node);
+      return this.solution(problem.initialState, node);
     }
     while (this.frontierLength(frontier) > 0) {
       // pick shallowest node from frontier
@@ -114,6 +135,8 @@ class SearchAlgorithm {
         // node
         const child = this.setChildNode(node, action, cost);
         const result = this.forCondition(problem, frontier, child, visited);
+
+        // if there is a solution to return
         if (result instanceof Array) {
           return result;
         }

@@ -1,3 +1,6 @@
+/**
+ * Priority queue data structure
+ */
 class PriorityQueue {
   #heap
   #comparator
@@ -5,6 +8,7 @@ class PriorityQueue {
 
   constructor(goal, comparator = (a, b) => a > b) {
     this.#heap = [];
+    // safe target state for correct use of the comparator
     this.goal = goal;
     this.#comparator = comparator;
     this.#top = 0;
