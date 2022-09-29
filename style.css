@@ -1,0 +1,150 @@
+@font-face {
+  font-family: 'IndianaJones';
+  src: url("/asserts/adventureindianajones_regular.woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: 'IndianaJones', serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* hide scrollbar */
+*::-webkit-scrollbar {
+  width: 0px;
+}
+
+.container {
+  height: 100vh;
+  display: flex;
+  background-image: url(/asserts/maze-background.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 20vh;
+}
+
+.gradient-text {
+  font-family: 'IndianaJones', serif;
+  text-transform: uppercase;
+  background: #FFFF19;
+  background: -webkit-linear-gradient(bottom, #FFFF19, #FC611A);
+  background: -moz-linear-gradient(bottom, #FFFF19, #FC611A);
+  background: linear-gradient(to top, #FFFF19, #FC611A);
+  -webkit-text-stroke: 0.5vh black;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #0B2349;
+  display: table;
+  padding: 0 5vh;
+  margin: 10px;
+}
+
+#play-link {
+  text-decoration: none;
+}
+
+#play-link :hover {
+  border: 0.5vh solid #D51AB4;
+  box-shadow: 0 0 10px #DB4AD8, 0 0 40px #DB4AD8, 0 0 80px #DB4AD8;
+}
+
+#play-link p:hover {
+  border: none;
+  box-shadow: none;
+  transform: scale(1.1);
+}
+
+
+.play-button {
+  border-radius: 20%;
+  font-size: 10vh;
+  border: 0.5vh solid black;
+  background-color: #FEECFE;
+  transform: rotate(-10deg);
+
+}
+
+#game {
+  height: 100vh;
+}
+
+main {
+  height: 80%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+/* maze drawing */
+.level {
+  display: grid;
+  grid-template-columns: repeat(3, 3fr);
+  gap: 0;
+  width: 30%;
+  height: 30vh;
+  margin: 20px 50px;
+  opacity: 0.5;
+}
+
+.current-level {
+  flex-basis: 70%;
+  height: 70vh;
+  opacity: 1;
+  z-index: 2;
+}
+
+/* .level:hover {
+  transform: scale(1.5);
+} */
+
+.cell {
+  min-width: 100px;
+  min-height: 100px;
+  text-align: center;
+  background-color: #c4de7c;
+  border: 10px solid transparent;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.goal-cell {
+  background-image: url("/asserts/goal.png");
+}
+
+.up-cell {
+  background-image: url("/asserts/portal-up.png");
+}
+
+.down-cell {
+  background-image: url("/asserts/portal-down.png");
+}
+
+.up-down-cell {
+  background-image: url("/asserts/portal-up-down.png");
+
+}
+
+/* 
+
+
+
+
+     */
+footer {
+  text-align: center;
+  font-size: 4vh;
+  position: fixed;
+  bottom: 0;
+  right: 50%;
+}
+
+footer p:before {
+  content: "\00a9";
+}
