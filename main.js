@@ -58,8 +58,8 @@ function startNewGame() {
           cell.classList.add("down-cell");
         }
         if (i == table.start[0] && j == table.start[1] && k == table.start[2]) {
-          cell.textContent = "P";
           level.classList.add("current-level");
+          cell.classList.add("current-cell");
         }
         if (i == table.goal[0] && j == table.goal[1] && k == table.goal[2]) {
           cell.classList.add("goal-cell");
