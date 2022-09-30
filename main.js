@@ -24,6 +24,8 @@ function startNewGame() {
   const cellBorder = "10px solid black";
   const maze = new Maze3d(rows, columns, dimensions);
   const table = new DFSMaze3dGenerator(maze).generate();
+
+
   for (let i = 0; i < dimensions; i++) {
     const level = document.createElement("div");
     level.className = "level";
@@ -61,6 +63,7 @@ function startNewGame() {
         }
         if (i == table.goal[0] && j == table.goal[1] && k == table.goal[2]) {
           cell.classList.add("goal-cell");
+          cell.classList.remove("up-cell", "down-cell", "up-down-cell");
         }
 
 
