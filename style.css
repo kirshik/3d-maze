@@ -5,7 +5,7 @@
 
 @font-face {
   font-family: 'IndianaJones';
-  src: url("./asserts/adventureindianajones_regular.woff");
+  src: url("../asserts/adventureindianajones_regular.woff");
   font-weight: normal;
   font-style: normal;
 }
@@ -31,7 +31,7 @@ input::-webkit-inner-spin-button {
   text-align: center;
   height: calc(var(--index)*37);
   display: flex;
-  background-image: url(/asserts/maze-background.jpg);
+  background-image: url("../asserts/maze-background.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   justify-content: center;
@@ -169,19 +169,19 @@ main {
 }
 
 .goal-cell {
-  background-image: url("/asserts/goal.png");
+  background-image: url("../asserts/goal.png");
 }
 
 .up-cell {
-  background-image: url("/asserts/portal-up.png");
+  background-image: url("../asserts/portal-up.png");
 }
 
 .down-cell {
-  background-image: url("/asserts/portal-down.png");
+  background-image: url("../asserts/portal-down.png");
 }
 
 .up-down-cell {
-  background-image: url("/asserts/portal-up-down.png");
+  background-image: url("../asserts/portal-up-down.png");
 
 }
 
@@ -192,7 +192,7 @@ main {
 
      */
 footer {
-  background-image: url("/asserts/maze-background.jpg");
+  background-image: url("../asserts/maze-background.jpg");
   width: 100vw;
   background-size: cover;
   color: white;
