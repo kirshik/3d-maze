@@ -5,7 +5,7 @@
 
 @font-face {
   font-family: 'IndianaJones';
-  src: url("/asserts/adventureindianajones_regular.woff");
+  src: url("./asserts/adventureindianajones_regular.woff");
   font-weight: normal;
   font-style: normal;
 }

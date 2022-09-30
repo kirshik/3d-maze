@@ -5,10 +5,9 @@ import SearchDemo from "./search-demo.js";
 
 
 const inptName = document.querySelector("#name")
-// const rows = 3;
-// const columns = 3;
-// const dimensions = 3;
 const startNewGameButton = document.querySelector("#start").addEventListener("click", startNewGame)
+
+
 function startNewGame() {
   const workPlace = document.querySelector("main");
   workPlace.innerHTML = "";
