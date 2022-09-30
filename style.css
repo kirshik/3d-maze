@@ -69,8 +69,28 @@
 
 }
 
+.background {
+  background-image: url(/asserts/maze-background-light.jpg);
+}
+
 #game {
   height: 100vh;
+  z-index: 1;
+}
+
+#controller {
+  margin: 20px;
+  padding: 10px;
+}
+
+#controller button {
+  padding: 1vw;
+  margin: 5px;
+  border-radius: 20%;
+}
+
+#buttons {
+  margin-top: 1vh;
 }
 
 main {
@@ -79,15 +99,16 @@ main {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  overflow: scroll;
 }
 
 /* maze drawing */
 .level {
+  background-color: black;
   display: grid;
   grid-template-columns: repeat(3, 3fr);
   gap: 0;
-  width: 30%;
-  height: 30vh;
+  /* width: 30%; */
   margin: 20px 50px;
   opacity: 0.5;
 }
@@ -99,11 +120,8 @@ main {
   z-index: 2;
 }
 
-/* .level:hover {
-  transform: scale(1.5);
-} */
-
 .cell {
+  border-radius: 8%;
   min-width: 100px;
   min-height: 100px;
   text-align: center;
@@ -138,13 +156,24 @@ main {
 
      */
 footer {
+  background-image: url("/asserts/maze-background.jpg");
+  width: 100vw;
+  background-size: cover;
+  color: white;
+  -webkit-text-stroke: 0.1vh black;
   text-align: center;
   font-size: 4vh;
-  position: fixed;
   bottom: 0;
   right: 50%;
 }
 
 footer p:before {
   content: "\00a9";
+}
+
+@media (max-width: 900px) {
+  main {
+    flex-direction: column;
+  }
+
 }
