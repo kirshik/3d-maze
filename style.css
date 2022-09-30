@@ -172,7 +172,7 @@ main {
   animation-name: player;
   animation-duration: 0.8s;
   background-position: bottom;
-  background-size: 50%;
+  background-size: 35%;
   background-repeat: no-repeat;
   animation-iteration-count: infinite;
 }
@@ -197,14 +197,17 @@ main {
   }
 
   25% {
+    margin-right: calc(var(--index)*0.25);
     background-image: url("./asserts/moving-left-player-1.png");
   }
 
   50% {
+    margin-right: calc(var(--index)*0.5);
     background-image: url("./asserts/moving-left-player-2.png");
   }
 
   75% {
+    margin-right: calc(var(--index)*0.75);
     background-image: url("./asserts/moving-left-player-3.png");
   }
 
