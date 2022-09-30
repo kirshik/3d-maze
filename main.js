@@ -7,6 +7,40 @@ import SearchDemo from "./search-demo.js";
 const inptName = document.querySelector("#name")
 const startNewGameButton = document.querySelector("#start").addEventListener("click", startNewGame)
 
+function standPlayerAnimation(player) {
+  setTimeout(() => { player.src = "./asserts/flash.png" }, 50);
+  setInterval(() => {
+    if (player.getAttribute("move") == 0) {
+      player.src = "./asserts/stand-player.png";
+      setTimeout(() => { player.src = "./asserts/moving-player.png" }, 300);
+    }
+  }, 700);
+}
+function moveLeftPlayerAnimation(player) {
+  player.setAttribute("move", 1)
+  let timerId = setInterval(() => {
+    player.src = "./asserts/moving-left-player-1.png";
+    setTimeout(() => { player.src = "./asserts/moving-left-player-2.png" }, 250);
+    setTimeout(() => { player.src = "./asserts/moving-left-player-3.png" }, 500);
+  }, 750);
+  setTimeout(() => {
+    setTimeout(() => { player.src = "./asserts/flash.png" }, 100);
+    clearInterval(timerId); player.setAttribute("move", 0);
+  }, 2000);
+
+}
+function moveRightPlayerAnimation(player) {
+  player.setAttribute("move", 1)
+  let timerId = setInterval(() => {
+    player.src = "./asserts/moving-right-player-1.png";
+    setTimeout(() => { player.src = "./asserts/moving-right-player-2.png" }, 250);
+    setTimeout(() => { player.src = "./asserts/moving-right-player-3.png" }, 500);
+  }, 750);
+  setTimeout(() => {
+    setTimeout(() => { player.src = "./asserts/flash.png" }, 100);
+    clearInterval(timerId); player.setAttribute("move", 0)
+  }, 2000);
+}
 
 function startNewGame() {
   const workPlace = document.querySelector("main");
@@ -58,6 +92,13 @@ function startNewGame() {
           cell.classList.add("down-cell");
         }
         if (i == table.start[0] && j == table.start[1] && k == table.start[2]) {
+          const player = document.createElement("img");
+          // player.style.position = "absolute";
+          // let coords = player.getBoundingClientRect();
+          // player.style.left = `${coords.left + 0.1}`;
+          player.setAttribute("move", 0);
+          standPlayerAnimation(player);
+          cell.appendChild(player);
           level.classList.add("current-level");
           cell.classList.add("current-cell");
         }

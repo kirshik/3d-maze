@@ -168,76 +168,8 @@ main {
   background-position: center;
 }
 
-.current-cell {
-  animation-name: player;
-  animation-duration: 0.8s;
-  background-position: bottom;
-  background-size: 35%;
-  background-repeat: no-repeat;
-  animation-iteration-count: infinite;
-}
-
-@keyframes player {
-  from {
-    background-image: url("./asserts/stand-player.png");
-  }
-
-  50% {
-    background-image: url("./asserts/moving-player.png");
-  }
-
-  to {
-    background-image: url("./asserts/stand-player.png");
-  }
-}
-
-@keyframes player-move-left {
-  from {
-    background-image: url("./asserts/stand-player.png");
-  }
-
-  25% {
-    margin-right: calc(var(--index)*0.25);
-    background-image: url("./asserts/moving-left-player-1.png");
-  }
-
-  50% {
-    margin-right: calc(var(--index)*0.5);
-    background-image: url("./asserts/moving-left-player-2.png");
-  }
-
-  75% {
-    margin-right: calc(var(--index)*0.75);
-    background-image: url("./asserts/moving-left-player-3.png");
-  }
-
-  to {
-    background-image: url("./asserts/stand-player.png");
-  }
-}
-
-@keyframes player-move-right {
-  from {
-    background-image: url("./asserts/stand-player.png");
-  }
-
-  25% {
-    background-image: url("./asserts/moving-right-player-1.png");
-  }
-
-  50% {
-    background-image: url("./asserts/moving-right-player-2.png");
-  }
-
-  75% {
-    background-image: url("./asserts/moving-right-player-3.png");
-  }
-
-  to {
-    background-image: url("./asserts/stand-player.png");
-  }
-}
-
+/* .current-cell {
+} */
 .goal-cell {
   background-image: url("./asserts/goal.png");
 }
