@@ -147,6 +147,11 @@ main {
   gap: 0;
   margin: 20px 50px;
   opacity: 0.5;
+  cursor: pointer;
+}
+
+.level:hover {
+  opacity: 1;
 }
 
 .current-level {
