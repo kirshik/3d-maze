@@ -220,4 +220,17 @@ footer p:before {
     font-size: calc(var(--index)*5);
   }
 
+  .up-cell {
+    background-image: url("./asserts/portal-up-down-phones.png");
+  }
+
+  .down-cell {
+    background-image: url("./asserts/portal-down-phones.png");
+  }
+
+  .up-down-cell {
+    background-image: url("./asserts/portal-up-down-phones.png");
+
+  }
+
 }
