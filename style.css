@@ -1,3 +1,8 @@
+:root {
+  --index: calc(1vw + 1vh);
+  --text: #e7e7e0;
+}
+
 @font-face {
   font-family: 'IndianaJones';
   src: url("/asserts/adventureindianajones_regular.woff");
@@ -16,8 +21,15 @@
   width: 0px;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .container {
-  height: 100vh;
+  text-align: center;
+  height: calc(var(--index)*37);
   display: flex;
   background-image: url(/asserts/maze-background.jpg);
   background-repeat: no-repeat;
@@ -25,7 +37,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  font-size: 20vh;
+  font-size: calc(var(--index)*8);
 }
 
 .gradient-text {
@@ -41,7 +53,7 @@
   color: #0B2349;
   display: table;
   padding: 0 5vh;
-  margin: 10px;
+  margin: var(--index);
 }
 
 #play-link {
@@ -62,31 +74,57 @@
 
 .play-button {
   border-radius: 20%;
-  font-size: 10vh;
+  font-size: calc(var(--index)*3);
   border: 0.5vh solid black;
   background-color: #FEECFE;
   transform: rotate(-10deg);
 
 }
 
+
 .background {
-  background-image: url(/asserts/maze-background-light.jpg);
+  background: rgb(241, 102, 228);
+  background: linear-gradient(90deg, rgba(241, 102, 228, 1) 0%, rgba(124, 159, 18, 1) 92%);
+  /* background-image: url(/asserts/maze-background-light.jpg); */
 }
 
 #game {
-  height: 100vh;
+  min-height: calc(var(--index)*35);
   z-index: 1;
 }
 
 #controller {
-  margin: 20px;
-  padding: 10px;
+  text-align: center;
+  margin-top: 0;
+  padding: 15px;
+  font-size: var(--index);
 }
+
+#controller input {
+  width: calc(var(--index)*6);
+  height: calc(var(--index)*1.5);
+  font-size: var(--index);
+  margin-top: 15px;
+
+  border-radius: 8%;
+}
+
+#controller input::placeholder {
+  font-size: calc(var(--index)*0.6);
+}
+
 
 #controller button {
   padding: 1vw;
   margin: 5px;
   border-radius: 20%;
+  font-size: calc(var(--index)*1.5);
+}
+
+#controller button:hover {
+  color: #622457;
+  border: 0.5vh solid #D51AB4;
+  box-shadow: 0 0 10px #DB4AD8, 0 0 40px #DB4AD8, 0 0 80px #DB4AD8;
 }
 
 #buttons {
@@ -94,7 +132,6 @@
 }
 
 main {
-  height: 80%;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -108,14 +145,13 @@ main {
   display: grid;
   grid-template-columns: repeat(3, 3fr);
   gap: 0;
-  /* width: 30%; */
   margin: 20px 50px;
   opacity: 0.5;
 }
 
 .current-level {
   flex-basis: 70%;
-  height: 70vh;
+  min-height: calc(var(--index)*22);
   opacity: 1;
   z-index: 2;
 }
@@ -174,6 +210,14 @@ footer p:before {
 @media (max-width: 900px) {
   main {
     flex-direction: column;
+  }
+
+  .container {
+    height: 100vh;
+  }
+
+  .play-button {
+    font-size: calc(var(--index)*5);
   }
 
 }
