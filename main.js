@@ -42,6 +42,7 @@ function makeMove() {
         if (isValidMove(move)) {
           const currentLevel = document.querySelector(".current-level");
           currentLevel.classList.remove("current-level");
+
           const nextCell = document.getElementById(move);
           nextCell.classList.add("current-cell");
           const nextLevel = nextCell.parentNode;
