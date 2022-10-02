@@ -173,8 +173,15 @@ main {
   background-position: center;
 }
 
-/* .current-cell {
-} */
+.current-cell {
+  position: none;
+}
+
+#player {
+  min-width: 70px;
+  min-height: 93px;
+}
+
 .goal-cell {
   background-image: url("./asserts/goal.png");
 }

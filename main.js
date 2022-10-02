@@ -7,6 +7,53 @@ import SearchDemo from "./search-demo.js";
 const inptName = document.querySelector("#name")
 const startNewGameButton = document.querySelector("#start").addEventListener("click", startNewGame)
 
+let isGame = 0;
+function isValidMove(id) {
+  const place = [Number(id[0]), Number(id[1]), Number(id[2])];
+  return true;
+}
+function placePlayer(cell) {
+  const player = document.createElement("img");
+  player.id = "player";
+  player.setAttribute("move", 0);
+  standPlayerAnimation(player);
+  cell.appendChild(player);
+}
+function makeMove() {
+  if (isGame) {
+    document.addEventListener("keydown", (e) => {
+      e.preventDefault();
+      const currCell = document.querySelector(".current-cell");
+      const currCellId = currCell.id;
+
+      const directions = new Map([
+        ["ArrowUp", `${currCellId[0]}${Number(currCellId[1]) - 1}${currCellId[2]}`],
+        ["ArrowDown", `${currCellId[0]}${Number(currCellId[1]) + 1}${currCellId[2]}`],
+        ["ArrowLeft", `${currCellId[0]}${currCellId[1]}${Number(currCellId[2]) - 1}`],
+        ["ArrowRight", `${currCellId[0]}${currCellId[1]}${Number(currCellId[2]) + 1}`],
+        ["PageUp", `${Number(currCellId[0]) + 1}${currCellId[1]}${currCellId[2]}`],
+        ["PageDown", `${Number(currCellId[0]) - 1}${currCellId[1]}${currCellId[2]}`]
+      ])
+
+      if (directions.has(e.key)) {
+        currCell.classList.remove("current-cell");
+        currCell.removeChild(document.getElementById("player"));
+        const move = directions.get(e.key);
+        if (isValidMove(move)) {
+          const currentLevel = document.querySelector(".current-level");
+          currentLevel.classList.remove("current-level");
+          const nextCell = document.getElementById(move);
+          nextCell.classList.add("current-cell");
+          const nextLevel = nextCell.parentNode;
+          nextLevel.classList.add("current-level");
+          placePlayer(nextCell);
+        }
+      }
+    });
+  }
+}
+
+
 function standPlayerAnimation(player) {
   setTimeout(() => { player.src = "./asserts/flash.png" }, 50);
   setInterval(() => {
@@ -83,7 +130,7 @@ function startNewGame() {
         if (mazeCell.backward) {
           cell.style.borderTop = cellBorder;
         }
-        // moving between levels
+        // walls between levels
         if (!mazeCell.up && !mazeCell.down) {
           cell.classList.add("up-down-cell");
         } else if (!mazeCell.up) {
@@ -92,13 +139,7 @@ function startNewGame() {
           cell.classList.add("down-cell");
         }
         if (i == table.start[0] && j == table.start[1] && k == table.start[2]) {
-          const player = document.createElement("img");
-          // player.style.position = "absolute";
-          // let coords = player.getBoundingClientRect();
-          // player.style.left = `${coords.left + 0.1}`;
-          player.setAttribute("move", 0);
-          standPlayerAnimation(player);
-          cell.appendChild(player);
+          placePlayer(cell);
           level.classList.add("current-level");
           cell.classList.add("current-cell");
         }
@@ -113,9 +154,11 @@ function startNewGame() {
     }
     workPlace.appendChild(level);
   }
-
-
+  isGame = 1;
+  makeMove();
 }
+
+
 
 
 
