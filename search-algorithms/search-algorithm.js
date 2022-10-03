@@ -22,7 +22,9 @@ class SearchAlgorithm {
       steps.push(node.state.toString());
       node = node.previousNode;
     }
-    steps.push(initialState.toString());
+    // turn on if you want to have start node in solution
+
+    // steps.push(initialState.toString());
     return steps.reverse();
   }
 

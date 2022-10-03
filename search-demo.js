@@ -18,7 +18,6 @@ class SearchDemo {
     let dfs = new DFSMaze3dGenerator(maze);
     const generatedMaze = dfs.generate();
     const adapter = new Maze3dAdapter(generatedMaze);
-
     const bfsSearch = this.#testSearchAlgorithm(new BFS(), adapter);
     const dfsSearch = this.#testSearchAlgorithm(new DFS(), adapter);
     const astarSearch = this.#testSearchAlgorithm(new AStar(), adapter);

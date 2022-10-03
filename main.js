@@ -1,14 +1,15 @@
 import DFSMaze3dGenerator from './dfs-maze-3d-generator.js';
 import Maze3d from './maze3d.js';
-import SearchDemo from './search-demo.js';
+import AStar from './search-algorithms/a-star-algorithm.js';
+import Maze3dAdapter from "./maze-3d-adapter.js";
 
 
-
+// buttons 
 const inptName = document.querySelector('#name')
 const startNewGameButton = document.querySelector('#start').addEventListener('click', startNewGame)
 const ResetPositionButton = document.querySelector('#reset').addEventListener('click', resetPosition)
-const showSolutionButton = document.querySelector('#solution').addEventListener('click', startNewGame)
-const GetHintButton = document.querySelector('#hint').addEventListener('click', startNewGame)
+const showSolutionButton = document.querySelector('#solution').addEventListener('click', showSolution)
+const GetHintButton = document.querySelector('#hint').addEventListener('click', getHint)
 const saveMazeGameButton = document.querySelector('#save-maze').addEventListener('click', startNewGame)
 const loadMazeGameButton = document.querySelector('#load-maze').addEventListener('click', startNewGame)
 
@@ -39,10 +40,32 @@ function placePlayer(cell) {
   standPlayerAnimation(player);
   cell.appendChild(player);
 }
+function handleMove(move, currCell, currCellId) {
+  if (isValidMove(currCellId, move)) {
+    currCell.classList.remove('current-cell');
+    currCell.removeChild(document.getElementById('player'));
+    const currentLevel = document.querySelector('.current-level');
+    currentLevel.classList.remove('current-level');
+
+    const nextCell = document.getElementById(move);
+    nextCell.classList.add('current-cell');
+    const nextLevel = nextCell.parentNode;
+    nextLevel.classList.add('current-level');
+    placePlayer(nextCell);
+  }
+}
 function makeMove() {
   if (isGame) {
-    document.addEventListener('keydown', (e) => {
+    // handle move by click
+    workPlace.addEventListener("click", (e) => {
+      const currCell = document.querySelector('.current-cell');
+      const currCellId = currCell.id;
+      const move = e.target.id;
+      handleMove(move, currCell, currCellId);
 
+    });
+    // handle move by keyboard
+    document.addEventListener('keydown', (e) => {
       const currCell = document.querySelector('.current-cell');
       const currCellId = currCell.id;
       const directions = new Map([
@@ -56,24 +79,9 @@ function makeMove() {
 
       if (directions.has(e.key)) {
         e.preventDefault();
-        // if (currentCellClass !== undefined) {
-        //   currCell.classList.add(currentCellClass);
-        // }
-        const move = directions.get(e.key);
-        if (isValidMove(currCellId, move)) {
-          currCell.classList.remove('current-cell');
-          currCell.removeChild(document.getElementById('player'));
-          const currentLevel = document.querySelector('.current-level');
-          currentLevel.classList.remove('current-level');
 
-          const nextCell = document.getElementById(move);
-          // currentCellClass = nextCell.classList[1];
-          // nextCell.classList.remove(currentCellClass);
-          nextCell.classList.add('current-cell');
-          const nextLevel = nextCell.parentNode;
-          nextLevel.classList.add('current-level');
-          placePlayer(nextCell);
-        }
+        const move = directions.get(e.key);
+        handleMove(move, currCell, currCellId);
       }
     });
   }
@@ -92,8 +100,35 @@ function resetPosition() {
   initialLevel.classList.add('current-level');
   placePlayer(initialCell);
 }
+function solution() {
+  const currTable = table;
+  const currPlace = document.querySelector('.current-cell').id;
+  currTable.start = [Number(currPlace[0]), Number(currPlace[1]), Number(currPlace[2])];
+  const adapter = new Maze3dAdapter(currTable);
+  const aStar = new AStar();
+  const aStarSearch = aStar.search(adapter);
+  return aStarSearch;
+}
+function getHint() {
+  const aStarSearch = solution()[0];
+  const hintCell = document.getElementById(`${aStarSearch[0]}${aStarSearch[1]}${aStarSearch[2]}`)
+  setTimeout(() => { hintCell.style.backgroundColor = "#DE7C7C" }, 15);
+  setTimeout(() => { hintCell.style.backgroundColor = "#C4DE7C" }, 450);
+}
+
+function showSolution() {
+  const moves = solution();
+  for (const move of moves) {
+    const id = `${move[0]}${move[1]}${move[2]}`;
+    const currentCell = () => { return document.querySelector('.current-cell') };
+    setTimeout(() => { }, 400);
+    handleMove(id, currentCell(), currentCell().id);
+  }
+}
 
 function startNewGame() {
+  // refresh page?
+  // location.reload();
   workPlace.innerHTML = '';
 
   const inptRows = document.querySelector('#rows');
