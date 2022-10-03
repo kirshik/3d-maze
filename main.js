@@ -6,10 +6,17 @@ import SearchDemo from './search-demo.js';
 
 const inptName = document.querySelector('#name')
 const startNewGameButton = document.querySelector('#start').addEventListener('click', startNewGame)
+const ResetPositionButton = document.querySelector('#reset').addEventListener('click', resetPosition)
+const showSolutionButton = document.querySelector('#solution').addEventListener('click', startNewGame)
+const GetHintButton = document.querySelector('#hint').addEventListener('click', startNewGame)
+const saveMazeGameButton = document.querySelector('#save-maze').addEventListener('click', startNewGame)
+const loadMazeGameButton = document.querySelector('#load-maze').addEventListener('click', startNewGame)
 
 let isGame = 0;
+const workPlace = document.querySelector('main');
+let table;
 // let currentCellClass;
-function isValidMove(currentCellId, nextCellId, table) {
+function isValidMove(currentCellId, nextCellId) {
   const next = [Number(nextCellId[0]), Number(nextCellId[1]), Number(nextCellId[2])];
   const current = [Number(currentCellId[0]), Number(currentCellId[1]), Number(currentCellId[2])];
   return table.isValidMove(current, next);
@@ -32,7 +39,7 @@ function placePlayer(cell) {
   standPlayerAnimation(player);
   cell.appendChild(player);
 }
-function makeMove(table) {
+function makeMove() {
   if (isGame) {
     document.addEventListener('keydown', (e) => {
 
@@ -53,7 +60,7 @@ function makeMove(table) {
         //   currCell.classList.add(currentCellClass);
         // }
         const move = directions.get(e.key);
-        if (isValidMove(currCellId, move, table)) {
+        if (isValidMove(currCellId, move)) {
           currCell.classList.remove('current-cell');
           currCell.removeChild(document.getElementById('player'));
           const currentLevel = document.querySelector('.current-level');
@@ -72,8 +79,21 @@ function makeMove(table) {
   }
 }
 
+function resetPosition() {
+  const currCell = document.querySelector('.current-cell');
+  currCell.classList.remove('current-cell');
+  currCell.removeChild(document.getElementById('player'));
+  const currentLevel = document.querySelector('.current-level');
+  currentLevel.classList.remove('current-level');
+  const start = table.start;
+  const initialCell = document.getElementById(`${start[0]}${start[1]}${start[2]}`)
+  const initialLevel = initialCell.parentNode;
+  initialCell.classList.add('current-cell');
+  initialLevel.classList.add('current-level');
+  placePlayer(initialCell);
+}
+
 function startNewGame() {
-  const workPlace = document.querySelector('main');
   workPlace.innerHTML = '';
 
   const inptRows = document.querySelector('#rows');
@@ -87,7 +107,7 @@ function startNewGame() {
 
   const cellBorder = '10px solid black';
   const maze = new Maze3d(rows, columns, dimensions);
-  const table = new DFSMaze3dGenerator(maze).generate();
+  table = new DFSMaze3dGenerator(maze).generate();
 
 
   for (let i = 0; i < dimensions; i++) {
@@ -145,7 +165,7 @@ function startNewGame() {
     workPlace.appendChild(level);
   }
   isGame = 1;
-  makeMove(table);
+  makeMove();
 }
 
 
