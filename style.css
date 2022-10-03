@@ -168,6 +168,8 @@ main {
   text-align: center;
   background-color: #c4de7c;
   border: 10px solid transparent;
+
+
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -188,14 +190,17 @@ main {
 
 .up-cell {
   background-image: url("./asserts/portal-up.png");
+  /* background-color: skyblue; */
 }
 
 .down-cell {
   background-image: url("./asserts/portal-down.png");
+  /* background-color: cadetblue; */
 }
 
 .up-down-cell {
   background-image: url("./asserts/portal-up-down.png");
+  /* background-color: salmon; */
 
 }
 

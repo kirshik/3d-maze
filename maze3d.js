@@ -36,6 +36,32 @@ class Maze3d {
     }
 
   }
+  /**
+   * 
+   * @param {Array} currentCell 
+   * @param {Array} nextCell 
+   */
+  isValidMove(currentCell, nextCell) {
+    const cell = this.maze[currentCell[0]][currentCell[1]][currentCell[2]];
+    const directions = new Map([
+      [() => { return cell.up }, [-1, 0, 0]],
+      [() => { return cell.down }, [1, 0, 0]],
+      [() => { return cell.forward }, [0, 1, 0]],
+      [() => { return cell.backward }, [0, -1, 0]],
+      [() => { return cell.right }, [0, 0, 1]],
+      [() => { return cell.left }, [0, 0, -1]],
+    ])
+    for (let [key, place] of directions) {
+      let sum = currentCell.map((num, idx) => num + place[idx]);
+      if (nextCell.toString() === sum.toString()) {
+        if (!key()) {
+          return true;
+        }
+      }
+    }
+    return false;
+
+  }
 
   /**
    * @returns console representation of the maze
