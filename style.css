@@ -163,8 +163,8 @@ main {
 
 .cell {
   border-radius: 8%;
-  min-width: 100px;
-  min-height: 100px;
+  min-width: calc(var(--index)*3);
+  min-height: calc(var(--index)*3);
   text-align: center;
   background-color: #c4de7c;
   border: 10px solid transparent;
@@ -180,8 +180,8 @@ main {
 }
 
 #player {
-  min-width: 70px;
-  min-height: 93px;
+  width: calc(var(--index)*3);
+
 }
 
 .goal-cell {
