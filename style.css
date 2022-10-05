@@ -163,11 +163,11 @@ main {
 
 .cell {
   border-radius: 8%;
-  min-width: calc(var(--index)*3);
+  min-width: calc(var(--index)*4.5);
   min-height: calc(var(--index)*3);
   text-align: center;
   background-color: #c4de7c;
-  border: 10px solid transparent;
+  border: calc(var(--index)*0.4) solid transparent;
 
 
   background-size: contain;

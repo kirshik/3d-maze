@@ -204,7 +204,7 @@ class Widget {
     const inptDimensions = document.querySelector('#dimensions');
     const dimensions = inptDimensions.value;
 
-    const cellBorder = '10px solid black';
+    const cellBorder = 'calc(var(--index)*0.4) solid black';
     const maze = new Maze3d(rows, columns, dimensions);
     this.#table = new DFSMaze3dGenerator(maze).generate();
 
