@@ -10,14 +10,13 @@ class Widget {
   // class variables
   #isGame = 0;
   #table;
+  #inptName;
 
   constructor(cellsBackgroundColor, pathPlayerImage, borderColor) {
     this.cellsBackgroundColor = cellsBackgroundColor;
     this.pathPlayerImage = pathPlayerImage;
     this.borderColor = borderColor;
-
-    this.inptName = document.querySelector('#name');
-
+    this.#inptName = document.querySelector('#name');
 
     //buttons
     const startNewGameButton = document.querySelector('#start').addEventListener('click', () => { this.startNewGame() });
@@ -177,11 +176,18 @@ class Widget {
       const id = `${move[0]}${move[1]}${move[2]}`;
       let currentCell = document.querySelector('.current-cell');
       let timerId = setInterval(() => {
-        setTimeout(() => { this.handleMove(id, currentCell, currentCell.id); currentCell = document.querySelector('.current-cell') }, 300);
-      }, 300);
-      setTimeout(() => { clearInterval(timerId); }, 300 * len);
+        setTimeout(() => { this.handleMove(id, currentCell, currentCell.id); currentCell = document.querySelector('.current-cell') }, 500);
+      }, 500);
+      setTimeout(() => { clearInterval(timerId); }, 500 * len);
 
     }
+  }
+
+  createPortal(cell, src) {
+    const upDownPortal = document.createElement("img");
+    upDownPortal.className = "portal";
+    upDownPortal.src = src;
+    cell.appendChild(upDownPortal)
   }
 
 
@@ -235,11 +241,15 @@ class Widget {
           // walls between levels
 
           if (!mazeCell.up && !mazeCell.down) {
-            cell.classList.add('up-down-cell');
+            this.createPortal(cell, './asserts/portal-up-down.png')
+            // cell.classList.add('up-down-cell');
+
           } else if (!mazeCell.up) {
-            cell.classList.add('up-cell');
+            this.createPortal(cell, './asserts/portal-up.png')
+            // cell.classList.add('up-cell');
           } else if (!mazeCell.down) {
-            cell.classList.add('down-cell');
+            this.createPortal(cell, './asserts/portal-down.png')
+            // cell.classList.add('down-cell');
           }
           if (i == this.#table.start[0] && j == this.#table.start[1] && k == this.#table.start[2]) {
             this.placePlayer(cell);
@@ -247,8 +257,10 @@ class Widget {
             cell.classList.add('current-cell');
           }
           if (i == this.#table.goal[0] && j == this.#table.goal[1] && k == this.#table.goal[2]) {
-            cell.classList.add('goal-cell');
-            cell.classList.remove('up-cell', 'down-cell', 'up-down-cell');
+            cell.innerHTML = "";
+            this.createPortal(cell, './asserts/goal.png');
+            // cell.classList.add('goal-cell');
+            // cell.classList.remove('up-cell', 'down-cell', 'up-down-cell');
           }
           level.appendChild(cell);
         }

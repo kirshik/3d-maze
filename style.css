@@ -162,6 +162,10 @@ main {
 }
 
 .cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   border-radius: 8%;
   min-width: calc(var(--index)*4.5);
   min-height: calc(var(--index)*3);
@@ -202,6 +206,10 @@ main {
   background-image: url("./asserts/portal-up-down.png");
   /* background-color: salmon; */
 
+}
+
+.portal {
+  height: calc(var(--index)*3.5);
 }
 
 /* 
