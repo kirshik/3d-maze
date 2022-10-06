@@ -103,6 +103,8 @@ class Widget {
       winDiv.appendChild(p);
 
       const btnDiv = document.createElement("div");
+      btnDiv.id = "win-btn-div";
+
 
       const btnClose = document.createElement("button");
       btnClose.className = 'win-btn';

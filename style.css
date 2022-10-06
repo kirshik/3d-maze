@@ -219,7 +219,8 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(var(--index)*3);
+  min-height: calc(var(--index)*25);
+  font-size: calc(var(--index)*4);
   left: 25%;
   top: 130vh;
   background-color: #c4de7c;
@@ -227,6 +228,18 @@ main {
   height: 50%;
   border-radius: 15%;
   border: calc(var(--index)*0.5) solid black;
+}
+
+#win-div p {
+  margin-bottom: 10vh;
+}
+
+#win-btn-div {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
 }
 
 .win-btn {
@@ -282,6 +295,14 @@ footer p:before {
     /* height: calc(var(--index)*3); */
     width: calc(var(--index)*3.5);
 
+  }
+
+  #win-div {
+    font-size: calc(var(--index)*5);
+  }
+
+  #win-btn-div {
+    flex-direction: column;
   }
 
 }
