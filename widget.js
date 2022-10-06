@@ -116,7 +116,6 @@ class Widget {
 
         if (directions.has(e.key)) {
           e.preventDefault();
-
           const move = directions.get(e.key);
           this.handleMove(move, currCell, currCellId);
         }
@@ -160,7 +159,6 @@ class Widget {
   getHint() {
     const aStarSearch = this.solution()[0];
     const hintCell = document.getElementById(`${aStarSearch[0]}${aStarSearch[1]}${aStarSearch[2]}`)
-    console.log(hintCell.id)
     setTimeout(() => { hintCell.style.backgroundColor = "#DE7C7C" }, 15);
     setTimeout(() => { hintCell.style.backgroundColor = "#C4DE7C" }, 450);
   }
@@ -195,7 +193,6 @@ class Widget {
    * start new game
    */
   startNewGame() {
-    console.log(this)
     // refresh page?
     // location.reload();
     const workPlace = document.querySelector("main")

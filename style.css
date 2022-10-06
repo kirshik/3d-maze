@@ -247,7 +247,15 @@ footer p:before {
     font-size: calc(var(--index)*5);
   }
 
-  .up-cell {
+  .portal {
+    transform: rotate(90deg);
+  }
+
+  /* .cell {
+    flex-direction: row;
+  } */
+
+  /* .up-cell {
     background-image: url("./asserts/portal-up-phones.png");
   }
 
@@ -258,6 +266,6 @@ footer p:before {
   .up-down-cell {
     background-image: url("./asserts/portal-up-down-phones.png");
 
-  }
+  } */
 
 }
