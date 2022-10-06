@@ -87,6 +87,55 @@ class Widget {
     }
   }
 
+
+  winAction(move) {
+    if (move === `${this.#table.goal[0]}${this.#table.goal[1]}${this.#table.goal[2]}`) {
+      const game = document.getElementById("game");
+      const background = document.querySelector(".background");
+
+      game.style.opacity = "0.5";
+
+      const winDiv = document.createElement("div");
+      const p = document.createElement("p");
+      p.className = "gradient-text";
+      p.textContent = "You WIN!";
+      winDiv.id = 'win-div';
+      winDiv.appendChild(p);
+
+      const btnDiv = document.createElement("div");
+
+      const btnClose = document.createElement("button");
+      btnClose.className = 'win-btn';
+      btnClose.textContent = "close";
+      btnClose.id = 'win-close';
+      const btnSave = document.createElement("button");
+      btnSave.className = 'win-btn';
+      btnSave.textContent = "Save Maze";
+      btnSave.id = 'win-save-maze';
+      const btnStartNewGame = document.createElement("button");
+      btnStartNewGame.className = 'win-btn';
+      btnStartNewGame.textContent = "Start new Game";
+      btnStartNewGame.id = 'win-start-game';
+      btnDiv.appendChild(btnSave);
+      btnDiv.appendChild(btnStartNewGame);
+      btnDiv.appendChild(btnClose);
+      winDiv.appendChild(btnDiv);
+
+      background.appendChild(winDiv);
+
+      // handle buttons
+      function removeWin() {
+        background.removeChild(winDiv);
+        game.style.opacity = "1";
+      }
+      document.querySelector('#win-close').addEventListener('click', () => { removeWin() });
+      document.querySelector('#win-start-game').addEventListener('click', () => {
+        removeWin();
+        this.startNewGame()
+      });
+      document.querySelector('#win-save-maze').addEventListener('click', () => { });
+    }
+  }
   /**
    * handle click and keyboard event 
    */
@@ -118,6 +167,7 @@ class Widget {
           e.preventDefault();
           const move = directions.get(e.key);
           this.handleMove(move, currCell, currCellId);
+          this.winAction(move);
         }
       });
     }
@@ -177,8 +227,10 @@ class Widget {
         setTimeout(() => { this.handleMove(id, currentCell, currentCell.id); currentCell = document.querySelector('.current-cell') }, 500);
       }, 500);
       setTimeout(() => { clearInterval(timerId); }, 500 * len);
-
     }
+    const move = moves[moves.length - 1];
+    setTimeout(() => { this.winAction(`${move[0]}${move[1]}${move[2]}`); }, 500 * len)
+
   }
 
   createPortal(cell, src) {
@@ -236,17 +288,12 @@ class Widget {
             cell.style.borderTop = cellBorder;
           }
           // walls between levels
-
           if (!mazeCell.up && !mazeCell.down) {
             this.createPortal(cell, './asserts/portal-up-down.png')
-            // cell.classList.add('up-down-cell');
-
           } else if (!mazeCell.up) {
             this.createPortal(cell, './asserts/portal-up.png')
-            // cell.classList.add('up-cell');
           } else if (!mazeCell.down) {
             this.createPortal(cell, './asserts/portal-down.png')
-            // cell.classList.add('down-cell');
           }
           if (i == this.#table.start[0] && j == this.#table.start[1] && k == this.#table.start[2]) {
             this.placePlayer(cell);
@@ -256,8 +303,6 @@ class Widget {
           if (i == this.#table.goal[0] && j == this.#table.goal[1] && k == this.#table.goal[2]) {
             cell.innerHTML = "";
             this.createPortal(cell, './asserts/goal.png');
-            // cell.classList.add('goal-cell');
-            // cell.classList.remove('up-cell', 'down-cell', 'up-down-cell');
           }
           level.appendChild(cell);
         }

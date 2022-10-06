@@ -184,6 +184,7 @@ main {
 }
 
 #player {
+  position: absolute;
   width: calc(var(--index)*3);
 
 }
@@ -210,6 +211,35 @@ main {
 
 .portal {
   height: calc(var(--index)*3.5);
+}
+
+#win-div {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(var(--index)*3);
+  left: 25%;
+  top: 130vh;
+  background-color: #c4de7c;
+  width: 50%;
+  height: 50%;
+  border-radius: 15%;
+  border: calc(var(--index)*0.5) solid black;
+}
+
+.win-btn {
+  padding: 1vw;
+  margin: 5px;
+  border-radius: 10%;
+  background-color: white;
+  font-size: calc(var(--index)*1.5);
+  cursor: pointer;
+}
+
+.win-btn:hover {
+  font-size: calc(var(--index)*2);
 }
 
 /* 
@@ -249,23 +279,9 @@ footer p:before {
 
   .portal {
     transform: rotate(90deg);
+    /* height: calc(var(--index)*3); */
+    width: calc(var(--index)*3.5);
+
   }
-
-  /* .cell {
-    flex-direction: row;
-  } */
-
-  /* .up-cell {
-    background-image: url("./asserts/portal-up-phones.png");
-  }
-
-  .down-cell {
-    background-image: url("./asserts/portal-down-phones.png");
-  }
-
-  .up-down-cell {
-    background-image: url("./asserts/portal-up-down-phones.png");
-
-  } */
 
 }
