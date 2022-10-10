@@ -93,6 +93,20 @@ input::-webkit-inner-spin-button {
   z-index: 1;
 }
 
+#rules {
+  margin: calc(var(--index)*1);
+  border: calc(var(--index)*0.3) solid black;
+  border-radius: 3%;
+  background-color: white;
+  padding: var(--index);
+}
+
+#rules span {
+  background-color: #EA64AB;
+  padding: calc(var(--index)*0.2);
+  border-radius: 15%;
+}
+
 #controller {
   text-align: center;
   margin-top: 0;
@@ -115,7 +129,7 @@ input::-webkit-inner-spin-button {
 
 
 #controller button {
-  padding: 1vw;
+  padding: 0.5vw;
   margin: 5px;
   border-radius: 20%;
   font-size: calc(var(--index)*1.5);
@@ -155,6 +169,7 @@ main {
 }
 
 .current-level {
+  /* position: absolute; */
   flex-basis: 70%;
   min-height: calc(var(--index)*22);
   opacity: 1;
@@ -167,7 +182,7 @@ main {
   justify-content: center;
   flex-direction: column;
   border-radius: 8%;
-  min-width: calc(var(--index)*4.5);
+  min-width: calc(var(--index)*3);
   min-height: calc(var(--index)*3);
   text-align: center;
   background-color: #c4de7c;
@@ -186,31 +201,13 @@ main {
 #player {
   position: absolute;
   width: calc(var(--index)*3);
-
-}
-
-.goal-cell {
-  background-image: url("./asserts/goal.png");
-}
-
-.up-cell {
-  background-image: url("./asserts/portal-up.png");
-  /* background-color: skyblue; */
-}
-
-.down-cell {
-  background-image: url("./asserts/portal-down.png");
-  /* background-color: cadetblue; */
-}
-
-.up-down-cell {
-  background-image: url("./asserts/portal-up-down.png");
-  /* background-color: salmon; */
+  height: calc(var(--index)*3);
 
 }
 
 .portal {
   height: calc(var(--index)*3.5);
+  padding: calc(var(--index)*0.25);
 }
 
 #win-div {
@@ -222,12 +219,12 @@ main {
   min-height: calc(var(--index)*25);
   font-size: calc(var(--index)*4);
   left: 25%;
-  top: 130vh;
+  top: calc(var(--index)*40);
   background-color: #c4de7c;
   width: 50%;
   height: 50%;
   border-radius: 15%;
-  border: calc(var(--index)*0.5) solid black;
+  border: calc(var(--index)*0.4) solid black;
 }
 
 #win-div p {
@@ -293,12 +290,13 @@ footer p:before {
   .portal {
     transform: rotate(90deg);
     /* height: calc(var(--index)*3); */
-    width: calc(var(--index)*3.5);
+    width: calc(var(--index)*2.5);
 
   }
 
   #win-div {
     font-size: calc(var(--index)*5);
+    top: 150%;
   }
 
   #win-btn-div {

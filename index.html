@@ -22,7 +22,7 @@
   <div class="background">
     <div id="game">
       <aside id="controller">
-        <form action="" method="get" class="form-example">
+        <div>
           <label for="columns">Columns </label>
           <input type="number" id="columns" class="form-element-input" placeholder="Number of columns" required />
           <label for="rows">Rows </label>
@@ -32,16 +32,24 @@
           <label for="name">Game name </label>
           <input id="name" class="form-element-input" type="input" placeholder="Name of the game" required />
           <div id="buttons">
-            <button id="start">Start new game</button>
-            <button id="reset">Reset position</button>
-            <button id="solution">Show solution</button>
-            <button id="hint">Get a hint</button>
-            <button id="save-maze">Save maze</button>
-            <button id="load-maze">Load maze</button>
+            <button id="start" type="button">Start new game</button>
+            <button id="reset" type="button">Reset position</button>
+            <button id="solution" type="button">Show solution</button>
+            <button id="hint" type="button">Get a hint</button>
+            <button id="save-maze" type="button">Save maze</button>
+            <button id="load-maze" type="button">Load maze</button>
+            <button id="show-rules" type="button">Show rules</button>
+          </div>
+          <div id="rules" hidden>
+            <p>To move left right up and down use the <span>arrow keys</span> on the keyboard.</p>
+            <p>To move between levels, use the <span>PgUp</span> and <span>PgDown</span> keys, moving between levels is
+              only possible from
+              portals.</p>
+            <p>Your goal is to get to the flag.</p>
           </div>
 
 
-        </form>
+        </div>
       </aside>
       <main>
 

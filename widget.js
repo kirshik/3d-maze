@@ -17,6 +17,8 @@ class Widget {
     this.pathPlayerImage = pathPlayerImage;
     this.borderColor = borderColor;
     this.#inptName = document.querySelector('#name');
+    // color settings
+    // document.documentElement.style.setProperty('--your-variable', '#YOURCOLOR');
 
     //buttons
     const startNewGameButton = document.querySelector('#start').addEventListener('click', () => { this.startNewGame() });
@@ -25,6 +27,7 @@ class Widget {
     const GetHintButton = document.querySelector('#hint').addEventListener('click', () => { this.getHint() });
     const saveMazeGameButton = document.querySelector('#save-maze').addEventListener('click', () => { this.startNewGame() });
     const loadMazeGameButton = document.querySelector('#load-maze').addEventListener('click', () => { this.startNewGame() });
+    const showRulesButton = document.querySelector('#show-rules').addEventListener('click', () => { this.showRules() });
   }
 
   /**
@@ -133,7 +136,7 @@ class Widget {
       document.querySelector('#win-close').addEventListener('click', () => { removeWin() });
       document.querySelector('#win-start-game').addEventListener('click', () => {
         removeWin();
-        this.startNewGame()
+        this.startNewGame();
       });
       document.querySelector('#win-save-maze').addEventListener('click', () => { });
     }
@@ -148,9 +151,13 @@ class Widget {
       workPlace.addEventListener("click", (e) => {
         const currCell = document.querySelector('.current-cell');
         const currCellId = currCell.id;
-        const move = e.target.id;
-        this.handleMove(move, currCell, currCellId);
-
+        if (e.target.id) {
+          const move = e.target.id;
+          this.handleMove(move, currCell, currCellId);
+        } else if (!isNaN(e.target.parentNode.id)) {
+          const move = e.target.parentNode.id;
+          this.handleMove(move, currCell, currCellId);
+        }
       });
       // handle move by keyboard
       document.addEventListener('keydown', (e) => {
@@ -168,10 +175,23 @@ class Widget {
         if (directions.has(e.key)) {
           e.preventDefault();
           const move = directions.get(e.key);
+
+          //
+          console.log(move);
+          //
+
           this.handleMove(move, currCell, currCellId);
           this.winAction(move);
         }
       });
+    }
+  }
+  showRules() {
+    const rules = document.getElementById("rules");
+    if (rules.hidden) {
+      rules.hidden = false;
+    } else {
+      rules.hidden = true;
     }
   }
 
@@ -235,10 +255,14 @@ class Widget {
 
   }
 
-  createPortal(cell, src) {
+  createPortal(cell, src, flexDirection) {
     const upDownPortal = document.createElement("img");
     upDownPortal.className = "portal";
     upDownPortal.src = src;
+
+    if (flexDirection) {
+      upDownPortal.style.transform = "rotate(90deg)"
+    }
     cell.appendChild(upDownPortal)
   }
 
@@ -247,8 +271,10 @@ class Widget {
    * start new game
    */
   startNewGame() {
-    // refresh page?
-    // location.reload();
+    if (this.#isGame) {
+      history.go(0);
+      alert("Enter maze specification");
+    }
     const workPlace = document.querySelector("main")
     workPlace.innerHTML = '';
 
@@ -265,7 +291,7 @@ class Widget {
     const maze = new Maze3d(rows, columns, dimensions);
     this.#table = new DFSMaze3dGenerator(maze).generate();
 
-
+    const flexDirection = columns > 3 || rows > 3 || dimensions > 3;
     for (let i = 0; i < dimensions; i++) {
       const level = document.createElement('div');
       level.className = 'level';
@@ -291,11 +317,11 @@ class Widget {
           }
           // walls between levels
           if (!mazeCell.up && !mazeCell.down) {
-            this.createPortal(cell, './asserts/portal-up-down.png')
+            this.createPortal(cell, './asserts/portal-up-down.png', flexDirection)
           } else if (!mazeCell.up) {
-            this.createPortal(cell, './asserts/portal-up.png')
+            this.createPortal(cell, './asserts/portal-up.png', flexDirection)
           } else if (!mazeCell.down) {
-            this.createPortal(cell, './asserts/portal-down.png')
+            this.createPortal(cell, './asserts/portal-down.png', flexDirection)
           }
           if (i == this.#table.start[0] && j == this.#table.start[1] && k == this.#table.start[2]) {
             this.placePlayer(cell);
@@ -304,13 +330,27 @@ class Widget {
           }
           if (i == this.#table.goal[0] && j == this.#table.goal[1] && k == this.#table.goal[2]) {
             cell.innerHTML = "";
-            this.createPortal(cell, './asserts/goal.png');
+            this.createPortal(cell, './asserts/goal.png', 0);
           }
           level.appendChild(cell);
         }
       }
       workPlace.appendChild(level);
     }
+    if (columns > 3 || rows > 3 || dimensions > 3) {
+      workPlace.style.flexDirection = "column";
+    }
+    if (columns > 9 || rows > 9) { }
+    // if (columns > 3 || rows > 3 || dimensions > 3) {
+    //   const currLevel = document.querySelector('.current-level');
+    //   currLevel.style.position = "absolute";
+    //   workPlace.style.gap = 'calc(var(--index)*24)';
+    //   workPlace.style.paddingTop = 'calc(var(--index)*3)';
+    //   let levels = document.querySelectorAll('level');
+    //   for (const level of levels) {
+    //     level.style.transform = "translate(-100%, -100%)";
+    //   }
+    // }
     this.#isGame = 1;
     this.makeMove();
   }
