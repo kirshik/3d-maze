@@ -12,13 +12,17 @@ class Widget {
   #table;
   #inptName;
 
-  constructor(cellsBackgroundColor, pathPlayerImage, borderColor) {
-    this.cellsBackgroundColor = cellsBackgroundColor;
+  constructor(pathPlayerImage = 0, borderColor = "black", mainBackgroundColor = '#c4de7c', winBtnsBackgroundColor = 'white', mainFont = 'IndianaJones') {
     this.pathPlayerImage = pathPlayerImage;
     this.borderColor = borderColor;
     this.#inptName = document.querySelector('#name');
-    // color settings
-    // document.documentElement.style.setProperty('--your-variable', '#YOURCOLOR');
+    this.borderSize = 'calc(var(--index) * 0.4)';
+
+
+    // color settings   
+    document.documentElement.style.setProperty('--main-background-color', mainBackgroundColor);
+    document.documentElement.style.setProperty('--button-backgroun-color', winBtnsBackgroundColor);
+    document.documentElement.style.setProperty('--main-font', mainFont);
 
     //buttons
     const startNewGameButton = document.querySelector('#start').addEventListener('click', () => { this.startNewGame() });
@@ -47,13 +51,17 @@ class Widget {
    * @param {HTMLElement Object} player 
    */
   standPlayerAnimation(player) {
-    setTimeout(() => { player.src = './asserts/flash.png' }, 25);
-    setInterval(() => {
-      if (player.getAttribute('move') == 0) {
-        player.src = './asserts/stand-player.png';
-        setTimeout(() => { player.src = './asserts/moving-player.png' }, 300);
-      }
-    }, 600);
+    if (this.pathPlayerImage === 0) {
+      setTimeout(() => { player.src = './asserts/flash.png' }, 25);
+      setInterval(() => {
+        if (player.getAttribute('move') == 0) {
+          player.src = './asserts/stand-player.png';
+          setTimeout(() => { player.src = './asserts/moving-player.png' }, 300);
+        }
+      }, 600);
+    } else {
+      player.src = this.pathPlayerImage;
+    }
   }
 
   /**
@@ -261,9 +269,10 @@ class Widget {
     upDownPortal.src = src;
 
     if (flexDirection) {
-      upDownPortal.style.transform = "rotate(90deg)"
+      upDownPortal.style.transform = "rotate(90deg)";
     }
-    cell.appendChild(upDownPortal)
+    cell.appendChild(upDownPortal);
+    return upDownPortal;
   }
 
 
@@ -287,11 +296,15 @@ class Widget {
     const inptDimensions = document.querySelector('#dimensions');
     const dimensions = inptDimensions.value;
 
-    const cellBorder = 'calc(var(--index)*0.4) solid black';
+
     const maze = new Maze3d(rows, columns, dimensions);
     this.#table = new DFSMaze3dGenerator(maze).generate();
 
     const flexDirection = columns > 3 || rows > 3 || dimensions > 3;
+    if (columns > 7 || rows > 7) {
+      this.borderSize = 'calc(var(--index) * 0.2)';
+    }
+    const cellBorder = `${this.borderSize} solid ${this.borderColor}`;
     for (let i = 0; i < dimensions; i++) {
       const level = document.createElement('div');
       level.className = 'level';
@@ -316,12 +329,13 @@ class Widget {
             cell.style.borderTop = cellBorder;
           }
           // walls between levels
+          let portal;
           if (!mazeCell.up && !mazeCell.down) {
-            this.createPortal(cell, './asserts/portal-up-down.png', flexDirection)
+            portal = this.createPortal(cell, './asserts/portal-up-down.png', flexDirection)
           } else if (!mazeCell.up) {
-            this.createPortal(cell, './asserts/portal-up.png', flexDirection)
+            portal = this.createPortal(cell, './asserts/portal-up.png', flexDirection)
           } else if (!mazeCell.down) {
-            this.createPortal(cell, './asserts/portal-down.png', flexDirection)
+            portal = this.createPortal(cell, './asserts/portal-down.png', flexDirection)
           }
           if (i == this.#table.start[0] && j == this.#table.start[1] && k == this.#table.start[2]) {
             this.placePlayer(cell);
@@ -330,17 +344,22 @@ class Widget {
           }
           if (i == this.#table.goal[0] && j == this.#table.goal[1] && k == this.#table.goal[2]) {
             cell.innerHTML = "";
-            this.createPortal(cell, './asserts/goal.png', 0);
+            portal = this.createPortal(cell, './asserts/goal.png', 0);
+          }
+          if (portal && (columns > 7 || rows > 7)) {
+            portal.style.height = 'calc(var(--index) * 2)';
+            document.documentElement.style.setProperty('--player-size', "calc(var(--index) * 2)");
           }
           level.appendChild(cell);
         }
+
       }
       workPlace.appendChild(level);
     }
     if (columns > 3 || rows > 3 || dimensions > 3) {
       workPlace.style.flexDirection = "column";
     }
-    if (columns > 9 || rows > 9) { }
+
     // if (columns > 3 || rows > 3 || dimensions > 3) {
     //   const currLevel = document.querySelector('.current-level');
     //   currLevel.style.position = "absolute";

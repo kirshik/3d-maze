@@ -1,6 +1,9 @@
 :root {
   --index: calc(1vw + 1vh);
-  --text: #e7e7e0;
+  --main-background-color: #c4de7c;
+  --button-backgroun-color: white;
+  --main-font: 'IndianaJones';
+  --player-size: calc(var(--index)*3);
 }
 
 @font-face {
@@ -11,7 +14,7 @@
 }
 
 * {
-  font-family: 'IndianaJones', serif;
+  font-family: var(--main-font), serif;
   margin: 0;
   padding: 0;
 }
@@ -182,10 +185,10 @@ main {
   justify-content: center;
   flex-direction: column;
   border-radius: 8%;
-  min-width: calc(var(--index)*3);
-  min-height: calc(var(--index)*3);
+  min-width: var(--player-size);
+  min-height: var(--player-size);
   text-align: center;
-  background-color: #c4de7c;
+  background-color: var(--main-background-color);
   border: calc(var(--index)*0.4) solid transparent;
 
 
@@ -200,13 +203,13 @@ main {
 
 #player {
   position: absolute;
-  width: calc(var(--index)*3);
-  height: calc(var(--index)*3);
+  width: var(--player-size);
+  height: var(--player-size);
 
 }
 
 .portal {
-  height: calc(var(--index)*3.5);
+  height: calc(var(--index)*2.5);
   padding: calc(var(--index)*0.25);
 }
 
@@ -220,7 +223,7 @@ main {
   font-size: calc(var(--index)*4);
   left: 25%;
   top: calc(var(--index)*40);
-  background-color: #c4de7c;
+  background-color: var(--main-background-color);
   width: 50%;
   height: 50%;
   border-radius: 15%;
@@ -243,7 +246,7 @@ main {
   padding: 1vw;
   margin: 5px;
   border-radius: 10%;
-  background-color: white;
+  background-color: var(--button-backgroun-color);
   font-size: calc(var(--index)*1.5);
   cursor: pointer;
 }
@@ -289,7 +292,6 @@ footer p:before {
 
   .portal {
     transform: rotate(90deg);
-    /* height: calc(var(--index)*3); */
     width: calc(var(--index)*2.5);
 
   }
