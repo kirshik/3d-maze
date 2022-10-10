@@ -12,12 +12,20 @@ class Widget {
   #table;
   #inptName;
 
-  constructor(pathPlayerImage = 0, borderColor = "black", mainBackgroundColor = '#c4de7c', winBtnsBackgroundColor = 'white', mainFont = 'IndianaJones') {
+  constructor(pathPlayerImage = 0, pathUpDownPortal = './asserts/portal-up-down.png',
+    pathUpPortal = './asserts/portal-up.png', pathDownPortal = './asserts/portal-down.png',
+    pathGoalPortal = './asserts/goal.png', borderColor = "black", mainBackgroundColor = '#c4de7c',
+    winBtnsBackgroundColor = 'white', mainFont = 'IndianaJones', hintColor = "#DE7C7C") {
+
+    this.pathGoalPortal = pathGoalPortal;
+    this.pathUpDownPortal = pathUpDownPortal;
+    this.pathUpPortal = pathUpPortal;
+    this.pathDownPortal = pathDownPortal;
+    this.hintColor = hintColor;
     this.pathPlayerImage = pathPlayerImage;
     this.borderColor = borderColor;
     this.#inptName = document.querySelector('#name');
     this.borderSize = 'calc(var(--index) * 0.4)';
-
 
     // color settings   
     document.documentElement.style.setProperty('--main-background-color', mainBackgroundColor);
@@ -239,8 +247,8 @@ class Widget {
   getHint() {
     const aStarSearch = this.solution()[0];
     const hintCell = document.getElementById(`${aStarSearch[0]}${aStarSearch[1]}${aStarSearch[2]}`)
-    setTimeout(() => { hintCell.style.backgroundColor = "#DE7C7C" }, 15);
-    setTimeout(() => { hintCell.style.backgroundColor = "#C4DE7C" }, 450);
+    setTimeout(() => { hintCell.style.backgroundColor = this.hintColor }, 15);
+    setTimeout(() => { hintCell.style.backgroundColor = this.mainBackgroundColor }, 450);
   }
 
   /**
@@ -331,11 +339,11 @@ class Widget {
           // walls between levels
           let portal;
           if (!mazeCell.up && !mazeCell.down) {
-            portal = this.createPortal(cell, './asserts/portal-up-down.png', flexDirection)
+            portal = this.createPortal(cell, this.pathUpDownPortal, flexDirection)
           } else if (!mazeCell.up) {
-            portal = this.createPortal(cell, './asserts/portal-up.png', flexDirection)
+            portal = this.createPortal(cell, this.pathUpPortal, flexDirection)
           } else if (!mazeCell.down) {
-            portal = this.createPortal(cell, './asserts/portal-down.png', flexDirection)
+            portal = this.createPortal(cell, this.pathDownPortal, flexDirection)
           }
           if (i == this.#table.start[0] && j == this.#table.start[1] && k == this.#table.start[2]) {
             this.placePlayer(cell);
@@ -344,7 +352,7 @@ class Widget {
           }
           if (i == this.#table.goal[0] && j == this.#table.goal[1] && k == this.#table.goal[2]) {
             cell.innerHTML = "";
-            portal = this.createPortal(cell, './asserts/goal.png', 0);
+            portal = this.createPortal(cell, this.pathGoalPortal, 0);
           }
           if (portal && (columns > 7 || rows > 7)) {
             portal.style.height = 'calc(var(--index) * 2)';
@@ -359,17 +367,6 @@ class Widget {
     if (columns > 3 || rows > 3 || dimensions > 3) {
       workPlace.style.flexDirection = "column";
     }
-
-    // if (columns > 3 || rows > 3 || dimensions > 3) {
-    //   const currLevel = document.querySelector('.current-level');
-    //   currLevel.style.position = "absolute";
-    //   workPlace.style.gap = 'calc(var(--index)*24)';
-    //   workPlace.style.paddingTop = 'calc(var(--index)*3)';
-    //   let levels = document.querySelectorAll('level');
-    //   for (const level of levels) {
-    //     level.style.transform = "translate(-100%, -100%)";
-    //   }
-    // }
     this.#isGame = 1;
     this.makeMove();
   }
