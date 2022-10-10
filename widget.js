@@ -1,4 +1,10 @@
+// __author__ = "Kirill Shiriaev https://github.com/kirshik/3d-maze/"
+// __copyright__ = "Copyright (C) 2022 Kirill Shiriaev"
+// __license__ = "Public Domain"
+// __version__ = "1.0"
 import DFSMaze3dGenerator from './dfs-maze-3d-generator.js';
+import SimpleMaze3dGenerator from './simple-maze-3d-generator.js';
+import PrimsMaze3dGenerator from './prims-maze-3d-generator.js';
 import Maze3d from './maze3d.js';
 import AStar from './search-algorithms/a-star-algorithm.js';
 import Maze3dAdapter from "./maze-3d-adapter.js";
@@ -12,11 +18,24 @@ class Widget {
   #table;
   #inptName;
 
+  /**
+   * @param {String} pathPlayerImage  default 0 - then you can see player animations
+   * @param {String} pathUpDownPortal 
+   * @param {String} pathUpPortal 
+   * @param {String} pathDownPortal 
+   * @param {String} pathGoalPortal 
+   * @param {String} borderColor 
+   * @param {String} mainBackgroundColor 
+   * @param {String} winBtnsBackgroundColor 
+   * @param {String} mainFont 
+   * @param {String} hintColor 
+   * @param {String} mazeGenerator  dfs, prims or random (3 types of generator available)
+   */
   constructor(pathPlayerImage = 0, pathUpDownPortal = './asserts/portal-up-down.png',
     pathUpPortal = './asserts/portal-up.png', pathDownPortal = './asserts/portal-down.png',
     pathGoalPortal = './asserts/goal.png', borderColor = "black", mainBackgroundColor = '#c4de7c',
-    winBtnsBackgroundColor = 'white', mainFont = 'IndianaJones', hintColor = "#DE7C7C") {
-
+    winBtnsBackgroundColor = 'white', mainFont = 'IndianaJones', hintColor = "#DE7C7C", mazeGenerator = "dfs") {
+    this.mazeGenerator = mazeGenerator;
     this.pathGoalPortal = pathGoalPortal;
     this.pathUpDownPortal = pathUpDownPortal;
     this.pathUpPortal = pathUpPortal;
@@ -27,7 +46,7 @@ class Widget {
     this.#inptName = document.querySelector('#name');
     this.borderSize = 'calc(var(--index) * 0.4)';
 
-    // color settings   
+    // CSS settings   
     document.documentElement.style.setProperty('--main-background-color', mainBackgroundColor);
     document.documentElement.style.setProperty('--button-backgroun-color', winBtnsBackgroundColor);
     document.documentElement.style.setProperty('--main-font', mainFont);
@@ -85,28 +104,10 @@ class Widget {
   }
 
   /**
-   * change current cell and level depending of move
-   * place player to next cell if move is valid
-   * @param {String} move 
-   * @param {HTMLElement Object} currCell 
-   * @param {String} currCellId 
-   */
-  handleMove(move, currCell, currCellId) {
-    if (this.isValidMove(currCellId, move)) {
-      currCell.classList.remove('current-cell');
-      currCell.removeChild(document.getElementById('player'));
-      const currentLevel = document.querySelector('.current-level');
-      currentLevel.classList.remove('current-level');
-
-      const nextCell = document.getElementById(move);
-      nextCell.classList.add('current-cell');
-      const nextLevel = nextCell.parentNode;
-      nextLevel.classList.add('current-level');
-      this.placePlayer(nextCell);
-    }
-  }
-
-
+ * Win window
+ * @param {String} move
+ * example : 001 
+ */
   winAction(move) {
     if (move === `${this.#table.goal[0]}${this.#table.goal[1]}${this.#table.goal[2]}`) {
       const game = document.getElementById("game");
@@ -114,6 +115,7 @@ class Widget {
 
       game.style.opacity = "0.5";
 
+      // creating Win window
       const winDiv = document.createElement("div");
       const p = document.createElement("p");
       p.className = "gradient-text";
@@ -124,7 +126,7 @@ class Widget {
       const btnDiv = document.createElement("div");
       btnDiv.id = "win-btn-div";
 
-
+      // creating buttons for win window
       const btnClose = document.createElement("button");
       btnClose.className = 'win-btn';
       btnClose.textContent = "close";
@@ -144,7 +146,7 @@ class Widget {
 
       background.appendChild(winDiv);
 
-      // handle buttons
+      // handle win buttons
       function removeWin() {
         background.removeChild(winDiv);
         game.style.opacity = "1";
@@ -157,6 +159,30 @@ class Widget {
       document.querySelector('#win-save-maze').addEventListener('click', () => { });
     }
   }
+
+  /**
+   * change current cell and level depending of move
+   * place player to next cell if move is valid
+   * @param {String} move 
+   * @param {HTMLElement Object} currCell 
+   * @param {String} currCellId 
+   */
+  handleMove(move, currCell, currCellId) {
+    if (this.isValidMove(currCellId, move)) {
+      currCell.classList.remove('current-cell');
+      currCell.removeChild(document.getElementById('player'));
+      const currentLevel = document.querySelector('.current-level');
+      currentLevel.classList.remove('current-level');
+
+      const nextCell = document.getElementById(move);
+      nextCell.classList.add('current-cell');
+      const nextLevel = nextCell.parentNode;
+      nextLevel.classList.add('current-level');
+      this.placePlayer(nextCell);
+      this.winAction(move);
+    }
+  }
+
   /**
    * handle click and keyboard event 
    */
@@ -191,17 +217,14 @@ class Widget {
         if (directions.has(e.key)) {
           e.preventDefault();
           const move = directions.get(e.key);
-
-          //
-          console.log(move);
-          //
-
           this.handleMove(move, currCell, currCellId);
-          this.winAction(move);
         }
       });
     }
   }
+  /**
+   * show rules div
+   */
   showRules() {
     const rules = document.getElementById("rules");
     if (rules.hidden) {
@@ -271,6 +294,13 @@ class Widget {
 
   }
 
+  /**
+   * function to put portals in cells
+   * @param {HTMLElement} cell 
+   * @param {String} src 
+   * @param {String} flexDirection 
+   * @returns 
+   */
   createPortal(cell, src, flexDirection) {
     const upDownPortal = document.createElement("img");
     upDownPortal.className = "portal";
@@ -288,12 +318,13 @@ class Widget {
    * start new game
    */
   startNewGame() {
+    // refresh the page if the user starts a new game from the current game
     if (this.#isGame) {
       history.go(0);
       alert("Enter maze specification");
     }
+    // set main params
     const workPlace = document.querySelector("main")
-    workPlace.innerHTML = '';
 
     const inptRows = document.querySelector('#rows');
     const rows = inptRows.value;
@@ -304,14 +335,25 @@ class Widget {
     const inptDimensions = document.querySelector('#dimensions');
     const dimensions = inptDimensions.value;
 
-
+    // create new maze using chosen generator
     const maze = new Maze3d(rows, columns, dimensions);
-    this.#table = new DFSMaze3dGenerator(maze).generate();
+    if (this.mazeGenerator === "dfs") {
+      this.#table = new DFSMaze3dGenerator(maze).generate();
+    } else if (this.mazeGenerator === 'random') {
+      this.#table = new SimpleMaze3dGenerator(maze).generate();
+    } else if (this.mazeGenerator === 'prims') {
+      this.#table = new PrimsMaze3dGenerator(maze).generate();
+    } else {
+      this.#table = new DFSMaze3dGenerator(maze).generate();
+    }
 
     const flexDirection = columns > 3 || rows > 3 || dimensions > 3;
+
+    // handle large maze
     if (columns > 7 || rows > 7) {
       this.borderSize = 'calc(var(--index) * 0.2)';
     }
+    // fill mae with cells
     const cellBorder = `${this.borderSize} solid ${this.borderColor}`;
     for (let i = 0; i < dimensions; i++) {
       const level = document.createElement('div');

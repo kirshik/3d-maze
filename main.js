@@ -1,7 +1,7 @@
-import DFSMaze3dGenerator from './dfs-maze-3d-generator.js';
-import Maze3d from './maze3d.js';
-import AStar from './search-algorithms/a-star-algorithm.js';
-import Maze3dAdapter from "./maze-3d-adapter.js";
+// __author__ = "Kirill Shiriaev https://github.com/kirshik/3d-maze/"
+// __copyright__ = "Copyright (C) 2022 Kirill Shiriaev"
+// __license__ = "Public Domain"
+// __version__ = "1.0"
 import Widget from './widget.js';
 
 
