@@ -6,6 +6,9 @@ import AStar from "./search-algorithms/a-star-algorithm.js";
 import BFS from "./search-algorithms/breadth-first-search.js";
 import DFS from "./search-algorithms/depth-first-search-algorithm.js";
 
+/**
+ * test all search algorithms in the maze
+ */
 class SearchDemo {
   constructor() { };
   #testSearchAlgorithm(searchAlgo, searchable) {

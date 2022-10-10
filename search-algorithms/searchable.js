@@ -18,6 +18,12 @@ class Searchable {
   get goalState() {
     throw new Error("goalState is abstract method");
   }
+
+  /**
+   * check if the current state matches the target state
+   * @param {Node} nodeState 
+   * @returns Boolean
+   */
   goalTest(nodeState) {
     if (!(nodeState.equals(this.goalState))) {
       return false;

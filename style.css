@@ -36,6 +36,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+/* first page */
 .container {
   text-align: center;
   height: calc(var(--index)*37);
@@ -91,10 +92,11 @@ input::-webkit-inner-spin-button {
 }
 
 
+/* second page */
+
 .background {
   background: rgb(241, 102, 228);
   background: linear-gradient(90deg, rgba(241, 102, 228, 1) 0%, rgba(124, 159, 18, 1) 92%);
-  /* background-image: url(/asserts/maze-background-light.jpg); */
 }
 
 #game {
@@ -178,7 +180,6 @@ main {
 }
 
 .current-level {
-  /* position: absolute; */
   flex-basis: 70%;
   min-height: calc(var(--index)*22);
   opacity: 1;
@@ -219,6 +220,7 @@ main {
   padding: calc(var(--index)*0.25);
 }
 
+/* win window */
 #win-div {
   position: absolute;
   display: flex;
@@ -261,12 +263,7 @@ main {
   font-size: calc(var(--index)*2);
 }
 
-/* 
-
-
-
-
-     */
+/* footer */
 footer {
   background-image: url("./asserts/maze-background.jpg");
   width: 100vw;
@@ -283,6 +280,7 @@ footer p:before {
   content: "\00a9";
 }
 
+/* phones part */
 @media (max-width: 900px) {
   main {
     flex-direction: column;
