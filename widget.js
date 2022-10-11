@@ -66,8 +66,8 @@ class Widget {
     const ResetPositionButton = document.querySelector('#reset').addEventListener('click', () => { this.resetPosition() });
     const showSolutionButton = document.querySelector('#solution').addEventListener('click', () => { this.showSolution() });
     const GetHintButton = document.querySelector('#hint').addEventListener('click', () => { this.getHint() });
-    const saveMazeGameButton = document.querySelector('#save-maze').addEventListener('click', () => { this.startNewGame() });
-    const loadMazeGameButton = document.querySelector('#load-maze').addEventListener('click', () => { this.startNewGame() });
+    const saveMazeGameButton = document.querySelector('#save-maze').addEventListener('click', () => { this.saveMaze() });
+    const loadMazeGameButton = document.querySelector('#load-maze').addEventListener('click', () => { this.loadMaze() });
     const showRulesButton = document.querySelector('#show-rules').addEventListener('click', () => { this.showRules() });
   }
 
@@ -365,26 +365,20 @@ class Widget {
     const workPlace = document.querySelector("main")
     setMazeParams();
     generateTable();
-
-    const rows = this.#rows;
-    const columns = this.#columns;
-    const dimensions = this.#dimensions;
-
-
-    const flexDirection = columns > 3 || rows > 3 || dimensions > 3;
+    const flexDirection = this.#table.columns > 3 || this.#table.rows > 3 || this.#table.dimensions > 3;
 
     // handle large maze
-    if (columns > 7 || rows > 7) {
+    if (this.#table.columns > 7 || this.#table.rows > 7) {
       this.borderSize = 'calc(var(--index) * 0.2)';
     }
     // fill mae with cells
     const cellBorder = `${this.borderSize} solid ${this.borderColor}`;
-    for (let i = 0; i < dimensions; i++) {
+    for (let i = 0; i < this.#table.dimensions; i++) {
       const level = document.createElement('div');
       level.className = 'level';
-      level.style.gridTemplateColumns = `repeat(${columns}, ${rows}fr)`;
-      for (let j = 0; j < rows; j++) {
-        for (let k = 0; k < columns; k++) {
+      level.style.gridTemplateColumns = `repeat(${this.#table.columns}, ${this.#table.rows}fr)`;
+      for (let j = 0; j < this.#table.rows; j++) {
+        for (let k = 0; k < this.#table.columns; k++) {
           const cell = document.createElement('div');
           cell.className = 'cell';
           cell.id = `${i}${j}${k}`;
@@ -420,7 +414,7 @@ class Widget {
             cell.innerHTML = "";
             portal = this.createPortal(cell, this.pathGoalPortal, 0);
           }
-          if (portal && (columns > 7 || rows > 7)) {
+          if (portal && (this.#table.columns > 7 || this.#table.rows > 7)) {
             portal.style.height = 'calc(var(--index) * 2)';
             document.documentElement.style.setProperty('--player-size', "calc(var(--index) * 2)");
           }
@@ -430,11 +424,29 @@ class Widget {
       }
       workPlace.appendChild(level);
     }
-    if (columns > 3 || rows > 3 || dimensions > 3) {
+    if (this.#table.columns > 3 || this.#table.rows > 3 || this.#table.dimensions > 3) {
       workPlace.style.flexDirection = "column";
     }
     this.#isGame = 1;
     this.makeMove();
+  }
+
+  saveMaze() {
+    const maze = JSON.stringify(this.#table);
+    console.log(this.#inptName.value)
+    localStorage.setItem(this.#inptName.value, maze);
+    // change alert to window like win-div
+    alert("Maze was secucfully saved");
+  }
+  loadMaze() {
+    const name = prompt("Enter the name of your maze");
+    const json = JSON.parse(localStorage.getItem(name));
+    const maze = new Maze3d(Number(json.rows), Number(json.columns), Number(json.dimensions))
+    maze.maze = json.maze;
+    maze.start = json.start;
+    maze.goal = json.goal;
+    this.#table = maze;
+    this.startNewGame(() => { }, () => { });
   }
 
 
