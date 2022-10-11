@@ -17,6 +17,9 @@ class Widget {
   #isGame = 0;
   #table;
   #inptName;
+  #rows;
+  #columns;
+  #dimensions;
 
   /**
    * @param {String} pathPlayerImage  default 0 - then you can see player animations
@@ -46,13 +49,20 @@ class Widget {
     this.#inptName = document.querySelector('#name');
     this.borderSize = 'calc(var(--index) * 0.4)';
 
+
+
     // CSS settings   
     document.documentElement.style.setProperty('--main-background-color', mainBackgroundColor);
     document.documentElement.style.setProperty('--button-backgroun-color', winBtnsBackgroundColor);
     document.documentElement.style.setProperty('--main-font', mainFont);
 
-    //buttons
-    const startNewGameButton = document.querySelector('#start').addEventListener('click', () => { this.startNewGame() });
+    // buttons
+    const startNewGameButton = document.querySelector('#start').addEventListener('click', () => {
+      this.startNewGame(
+        () => { this.generateTable() },
+        () => { this.setMazeParams() }
+      )
+    });
     const ResetPositionButton = document.querySelector('#reset').addEventListener('click', () => { this.resetPosition() });
     const showSolutionButton = document.querySelector('#solution').addEventListener('click', () => { this.showSolution() });
     const GetHintButton = document.querySelector('#hint').addEventListener('click', () => { this.getHint() });
@@ -154,7 +164,10 @@ class Widget {
       document.querySelector('#win-close').addEventListener('click', () => { removeWin() });
       document.querySelector('#win-start-game').addEventListener('click', () => {
         removeWin();
-        this.startNewGame();
+        this.startNewGame(
+          () => { this.generateTable() },
+          () => { this.setMazeParams() }
+        );
       });
       document.querySelector('#win-save-maze').addEventListener('click', () => { });
     }
@@ -313,30 +326,11 @@ class Widget {
     return upDownPortal;
   }
 
-
   /**
-   * start new game
+   * create new maze using chosen generator
    */
-  startNewGame() {
-    // refresh the page if the user starts a new game from the current game
-    if (this.#isGame) {
-      history.go(0);
-      alert("Enter maze specification");
-    }
-    // set main params
-    const workPlace = document.querySelector("main")
-
-    const inptRows = document.querySelector('#rows');
-    const rows = inptRows.value;
-
-    const inptColumns = document.querySelector('#columns');
-    const columns = inptColumns.value;
-
-    const inptDimensions = document.querySelector('#dimensions');
-    const dimensions = inptDimensions.value;
-
-    // create new maze using chosen generator
-    const maze = new Maze3d(rows, columns, dimensions);
+  generateTable() {
+    const maze = new Maze3d(this.#rows, this.#columns, this.#dimensions);
     if (this.mazeGenerator === "dfs") {
       this.#table = new DFSMaze3dGenerator(maze).generate();
     } else if (this.mazeGenerator === 'random') {
@@ -346,6 +340,36 @@ class Widget {
     } else {
       this.#table = new DFSMaze3dGenerator(maze).generate();
     }
+  }
+
+  setMazeParams() {
+    const inptRows = document.querySelector('#rows');
+    const inptColumns = document.querySelector('#columns');
+    const inptDimensions = document.querySelector('#dimensions');
+    this.#rows = inptRows.value;
+    this.#columns = inptColumns.value;
+    this.#dimensions = inptDimensions.value;
+
+  }
+
+  /**
+   * start new game
+   */
+  startNewGame(generateTable, setMazeParams) {
+    // refresh the page if the user starts a new game from the current game
+    if (this.#isGame) {
+      history.go(0);
+      alert("Enter maze specification");
+    }
+    // set main params
+    const workPlace = document.querySelector("main")
+    setMazeParams();
+    generateTable();
+
+    const rows = this.#rows;
+    const columns = this.#columns;
+    const dimensions = this.#dimensions;
+
 
     const flexDirection = columns > 3 || rows > 3 || dimensions > 3;
 
