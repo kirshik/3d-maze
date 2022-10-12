@@ -12,10 +12,11 @@ window.addEventListener("scroll", () => {
     buttons.classList.remove("buttons-fixed");
   }
 })
-
-
-
 const game = new Widget();
+
+
+
+
 
 
 

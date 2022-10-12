@@ -22,6 +22,7 @@ class Widget {
   #dimensions;
 
   #portal;
+  #flexDirection = "column";
 
   /**
    * @param {String} pathPlayerImage  default 0 - then you can see player animations
@@ -71,6 +72,10 @@ class Widget {
     const saveMazeGameButton = document.querySelector('#save-maze').addEventListener('click', () => { this.saveMaze() });
     const loadMazeGameButton = document.querySelector('#load-maze').addEventListener('click', () => { this.loadMaze() });
     const showRulesButton = document.querySelector('#show-rules').addEventListener('click', () => { this.showRules() });
+  }
+
+  get isGame() {
+    return this.#isGame;
   }
 
   /**
@@ -182,13 +187,16 @@ class Widget {
    * @param {HTMLElement} level 
    */
   focusOnLevel(cell = document.querySelector(".current-cell")) {
-    if (cell) {
-      const y = cell.getBoundingClientRect().top + window.scrollY - 200;
-      window.scroll({
-        top: y,
-        behavior: 'smooth'
-      });
+    if (this.#flexDirection !== "row") {
+      if (cell) {
+        const y = cell.getBoundingClientRect().top + window.scrollY - 200;
+        window.scroll({
+          top: y,
+          behavior: 'smooth'
+        });
+      }
     }
+
   }
 
   /**
@@ -391,6 +399,9 @@ class Widget {
     this.#dimensions = inptDimensions.value;
 
   }
+  isLarge() {
+    return
+  }
 
   /**
    * start new game
@@ -407,9 +418,15 @@ class Widget {
     const currentPosition = generateTable();
 
     // handle large maze
-    const isLarge = ((this.#table.columns > 7 || this.#table.rows > 7) && this.#table.dimensions > 1) || this.#table.dimensions > 3;
+    // 0.06 - it's --index(vh*vw) convert to pixels for each cell + borders, 50 - margin left and right for each level,
+    // each level contains 2 margin, so 50 * 2 * number of levels
+    const isLarge = (window.innerWidth * 0.06 * this.#table.columns * this.#table.dimensions + (this.#table.dimensions * 2 * 50))
+      > document.documentElement.clientWidth ||
+      window.innerWidth * 0.06 * this.#table.rows + (this.#table.dimensions * 2 * 20) > document.documentElement.clientHeight;
     if (isLarge) {
-      this.borderSize = 'calc(var(--index) * 0.4)';
+      this.borderSize = 'calc(var(--index) * 0.3)';
+    } else {
+      this.#flexDirection = "row";
     }
     // fill mae with cells
     const cellBorder = `${this.borderSize} solid ${this.borderColor}`;
@@ -467,11 +484,11 @@ class Widget {
     }
     if (isLarge) {
       workPlace.style.flexDirection = "column";
-      if (document.querySelector(".current-level").clientWidth < document.documentElement.clientWidth) {
-        workPlace.style.alignItems = "center";
-        workPlace.style.justifyContent = "center";
-      };
     }
+    if (document.querySelector(".current-level").clientWidth < document.documentElement.clientWidth) {
+      workPlace.style.alignItems = "center";
+      workPlace.style.justifyContent = "center";
+    };
     this.#isGame = 1;
     this.focusOnLevel();
     this.makeMove();
