@@ -59,8 +59,8 @@ class Widget {
     // buttons
     const startNewGameButton = document.querySelector('#start').addEventListener('click', () => {
       this.startNewGame(
-        () => { this.generateTable() },
-        () => { this.setMazeParams() }
+        () => { return this.generateTable() },
+        () => { return this.setMazeParams() }
       )
     });
     const ResetPositionButton = document.querySelector('#reset').addEventListener('click', () => { this.resetPosition() });
@@ -78,9 +78,7 @@ class Widget {
    * @returns bool true/false
    */
   isValidMove(currentCellId, nextCellId) {
-    const next = [Number(nextCellId[0]), Number(nextCellId[1]), Number(nextCellId[2])];
-    const current = [Number(currentCellId[0]), Number(currentCellId[1]), Number(currentCellId[2])];
-    return this.#table.isValidMove(current, next);
+    return this.#table.isValidMove(currentCellId, nextCellId);
   }
 
   /**
@@ -109,6 +107,9 @@ class Widget {
     const player = document.createElement('img');
     player.id = 'player';
     player.setAttribute('move', 0);
+    if (this.#columns > 9 || this.#rows > 9) {
+      player.style.position = "relative";
+    }
     this.standPlayerAnimation(player);
     cell.appendChild(player);
   }
@@ -119,7 +120,7 @@ class Widget {
  * example : 001 
  */
   winAction(move) {
-    if (move === `${this.#table.goal[0]}${this.#table.goal[1]}${this.#table.goal[2]}`) {
+    if (move === `${this.#table.goal[0]},${this.#table.goal[1]},${this.#table.goal[2]}`) {
       const game = document.getElementById("game");
       const background = document.querySelector(".background");
 
@@ -165,8 +166,8 @@ class Widget {
       document.querySelector('#win-start-game').addEventListener('click', () => {
         removeWin();
         this.startNewGame(
-          () => { this.generateTable() },
-          () => { this.setMazeParams() }
+          () => { return this.generateTable() },
+          () => { return this.setMazeParams() }
         );
       });
       document.querySelector('#win-save-maze').addEventListener('click', () => { });
@@ -192,7 +193,7 @@ class Widget {
       const nextLevel = nextCell.parentNode;
       nextLevel.classList.add('current-level');
       this.placePlayer(nextCell);
-      this.winAction(move);
+      this.winAction(move.split(",").map(n => Number(n)));
     }
   }
 
@@ -209,7 +210,7 @@ class Widget {
         if (e.target.id) {
           const move = e.target.id;
           this.handleMove(move, currCell, currCellId);
-        } else if (!isNaN(e.target.parentNode.id)) {
+        } else if (!isNaN(e.target.parentNode.id.split(",").map(n => Number(n))[0])) {
           const move = e.target.parentNode.id;
           this.handleMove(move, currCell, currCellId);
         }
@@ -217,14 +218,14 @@ class Widget {
       // handle move by keyboard
       document.addEventListener('keydown', (e) => {
         const currCell = document.querySelector('.current-cell');
-        const currCellId = currCell.id;
+        const currCellId = currCell.id.split(",").map(n => Number(n));
         const directions = new Map([
-          ['ArrowUp', `${currCellId[0]}${Number(currCellId[1]) - 1}${currCellId[2]}`],
-          ['ArrowDown', `${currCellId[0]}${Number(currCellId[1]) + 1}${currCellId[2]}`],
-          ['ArrowLeft', `${currCellId[0]}${currCellId[1]}${Number(currCellId[2]) - 1}`],
-          ['ArrowRight', `${currCellId[0]}${currCellId[1]}${Number(currCellId[2]) + 1}`],
-          ['PageUp', `${Number(currCellId[0]) - 1}${currCellId[1]}${currCellId[2]}`],
-          ['PageDown', `${Number(currCellId[0]) + 1}${currCellId[1]}${currCellId[2]}`]
+          ['ArrowUp', `${currCellId[0]},${currCellId[1] - 1},${currCellId[2]}`],
+          ['ArrowDown', `${currCellId[0]},${currCellId[1] + 1},${currCellId[2]}`],
+          ['ArrowLeft', `${currCellId[0]},${currCellId[1]},${currCellId[2] - 1}`],
+          ['ArrowRight', `${currCellId[0]},${currCellId[1]},${currCellId[2] + 1}`],
+          ['PageUp', `${currCellId[0] - 1},${currCellId[1]},${currCellId[2]}`],
+          ['PageDown', `${currCellId[0] + 1},${currCellId[1]},${currCellId[2]}`]
         ])
 
         if (directions.has(e.key)) {
@@ -257,7 +258,7 @@ class Widget {
     const currentLevel = document.querySelector('.current-level');
     currentLevel.classList.remove('current-level');
     const start = this.#table.start;
-    const initialCell = document.getElementById(`${start[0]}${start[1]}${start[2]}`)
+    const initialCell = document.getElementById(`${start[0]},${start[1]},${start[2]}`)
     const initialLevel = initialCell.parentNode;
     initialCell.classList.add('current-cell');
     initialLevel.classList.add('current-level');
@@ -269,8 +270,8 @@ class Widget {
    */
   solution() {
     const currtable = this.#table;
-    const currPlace = document.querySelector('.current-cell').id;
-    currtable.start = [Number(currPlace[0]), Number(currPlace[1]), Number(currPlace[2])];
+    const currPlace = document.querySelector('.current-cell').id.split(",").map(n => Number(n));
+    currtable.start = [currPlace[0], currPlace[1], currPlace[2]];
     const adapter = new Maze3dAdapter(currtable);
     const aStar = new AStar();
     const aStarSearch = aStar.search(adapter);
@@ -295,7 +296,7 @@ class Widget {
     const moves = this.solution();
     const len = moves.length;
     for (const move of moves) {
-      const id = `${move[0]}${move[1]}${move[2]}`;
+      const id = `${move[0]},${move[1]},${move[2]}`;
       let currentCell = document.querySelector('.current-cell');
       let timerId = setInterval(() => {
         setTimeout(() => { this.handleMove(id, currentCell, currentCell.id); currentCell = document.querySelector('.current-cell') }, 500);
@@ -303,7 +304,7 @@ class Widget {
       setTimeout(() => { clearInterval(timerId); }, 500 * len);
     }
     const move = moves[moves.length - 1];
-    setTimeout(() => { this.winAction(`${move[0]}${move[1]}${move[2]}`); }, 500 * len)
+    setTimeout(() => { this.winAction(`${move[0]},${move[1]},${move[2]}`); }, 500 * len)
 
   }
 
@@ -340,6 +341,7 @@ class Widget {
     } else {
       this.#table = new DFSMaze3dGenerator(maze).generate();
     }
+    return this.#table.start;
   }
 
   setMazeParams() {
@@ -364,7 +366,7 @@ class Widget {
     // set main params
     const workPlace = document.querySelector("main")
     setMazeParams();
-    generateTable();
+    const currentPosition = generateTable();
     const flexDirection = this.#table.columns > 3 || this.#table.rows > 3 || this.#table.dimensions > 3;
 
     // handle large maze
@@ -381,7 +383,7 @@ class Widget {
         for (let k = 0; k < this.#table.columns; k++) {
           const cell = document.createElement('div');
           cell.className = 'cell';
-          cell.id = `${i}${j}${k}`;
+          cell.id = `${i},${j},${k}`;
           const mazeCell = this.#table.maze[i][j][k];
 
           if (mazeCell.left) {
@@ -405,7 +407,7 @@ class Widget {
           } else if (!mazeCell.down) {
             portal = this.createPortal(cell, this.pathDownPortal, flexDirection)
           }
-          if (i == this.#table.start[0] && j == this.#table.start[1] && k == this.#table.start[2]) {
+          if (i == currentPosition[0] && j == currentPosition[1] && k == currentPosition[2]) {
             this.placePlayer(cell);
             level.classList.add('current-level');
             cell.classList.add('current-cell');
@@ -432,21 +434,24 @@ class Widget {
   }
 
   saveMaze() {
+    this.#table.currentPosition = document.querySelector(".current-cell").id;
     const maze = JSON.stringify(this.#table);
     console.log(this.#inptName.value)
     localStorage.setItem(this.#inptName.value, maze);
+    console.log(localStorage.getItem(this.#inptName))
     // change alert to window like win-div
     alert("Maze was secucfully saved");
   }
   loadMaze() {
     const name = prompt("Enter the name of your maze");
     const json = JSON.parse(localStorage.getItem(name));
+    const currentPosition = json.currentPosition.split(",").map(n => Number(n));
     const maze = new Maze3d(Number(json.rows), Number(json.columns), Number(json.dimensions))
     maze.maze = json.maze;
     maze.start = json.start;
     maze.goal = json.goal;
     this.#table = maze;
-    this.startNewGame(() => { }, () => { });
+    this.startNewGame(() => { return currentPosition }, () => { });
   }
 
 
