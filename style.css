@@ -166,6 +166,7 @@ main {
 
 /* maze drawing */
 .level {
+  align-self: flex-start;
   background-color: black;
   display: grid;
   grid-template-columns: repeat(3, 3fr);
@@ -209,7 +210,6 @@ main {
 }
 
 #player {
-  position: absolute;
   width: var(--player-size);
   height: var(--player-size);
 
@@ -221,8 +221,8 @@ main {
 }
 
 /* win window */
-#win-div {
-  position: absolute;
+.win-div {
+  position: fixed;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -230,7 +230,8 @@ main {
   min-height: calc(var(--index)*25);
   font-size: calc(var(--index)*4);
   left: 25%;
-  top: calc(var(--index)*40);
+  top: 0;
+  margin-top: var(--player-size);
   background-color: var(--main-background-color);
   width: 50%;
   height: 50%;
@@ -238,11 +239,12 @@ main {
   border: calc(var(--index)*0.4) solid black;
 }
 
-#win-div p {
+.win-div p {
   margin-bottom: 10vh;
+  text-align: center;
 }
 
-#win-btn-div {
+.win-btn-div {
   text-align: center;
   align-items: center;
   justify-content: center;
