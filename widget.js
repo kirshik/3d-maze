@@ -345,7 +345,11 @@ class Widget {
       const id = `${move[0]},${move[1]},${move[2]}`;
       let currentCell = document.querySelector('.current-cell');
       let timerId = setInterval(() => {
-        setTimeout(() => { this.handleMove(id, currentCell, this.idToArray(currentCell.id)); currentCell = document.querySelector('.current-cell') }, 500);
+        setTimeout(() => {
+          try {
+            this.handleMove(id, currentCell, this.idToArray(currentCell.id));
+          } catch (error) { }; currentCell = document.querySelector('.current-cell')
+        }, 500);
       }, 500);
       setTimeout(() => { clearInterval(timerId); }, 500 * len);
     }
