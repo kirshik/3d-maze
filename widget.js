@@ -37,7 +37,7 @@ class Widget {
    * @param {String} hintColor 
    * @param {String} mazeGenerator  dfs, prims or random (3 types of generator available)
    */
-  constructor(pathPlayerImage = 0, pathUpDownPortal = './asserts/portal-up-down.png',
+  constructor(pathPlayerImage = 0, pathUpDownPortal = './asserts/portal-up-down.png', workPlace = document.querySelector("main"),
     pathUpPortal = './asserts/portal-up.png', pathDownPortal = './asserts/portal-down.png',
     pathGoalPortal = './asserts/goal.png', borderColor = "black", mainBackgroundColor = "#c4de7c",
     winBtnsBackgroundColor = 'white', mainFont = 'IndianaJones', hintColor = "#de7c7c", mazeGenerator = "dfs") {
@@ -49,6 +49,7 @@ class Widget {
     this.hintColor = hintColor;
     this.pathPlayerImage = pathPlayerImage;
     this.borderColor = borderColor;
+    this.workPlace = workPlace;
     this.#inptName = document.querySelector('#name');
     this.borderSize = 'calc(var(--index) * 0.4)';
 
@@ -244,8 +245,7 @@ class Widget {
   makeMove() {
     if (this.#isGame) {
       // handle move by click
-      const workPlace = document.querySelector("main")
-      workPlace.addEventListener("click", (e) => {
+      this.workPlace.addEventListener("click", (e) => {
         const currCell = document.querySelector('.current-cell');
         const currCellId = this.idToArray(currCell.id);
         if (e.target.id) {
@@ -415,7 +415,6 @@ class Widget {
       alert("Enter maze specification");
     }
     // set main params
-    const workPlace = document.querySelector("main")
     setMazeParams();
     const currentPosition = generateTable();
 
@@ -481,15 +480,15 @@ class Widget {
         }
 
       }
-      workPlace.appendChild(level);
+      this.workPlace.appendChild(level);
 
     }
     if (isLarge) {
-      workPlace.style.flexDirection = "column";
+      this.workPlace.style.flexDirection = "column";
     }
     if (document.querySelector(".current-level").clientWidth < document.documentElement.clientWidth) {
-      workPlace.style.alignItems = "center";
-      workPlace.style.justifyContent = "center";
+      this.workPlace.style.alignItems = "center";
+      this.workPlace.style.justifyContent = "center";
     };
     this.#isGame = 1;
     this.focusOnLevel();
@@ -497,6 +496,10 @@ class Widget {
   }
 
   saveMaze() {
+    if (!this.#inptName.value) {
+      alert("Pleae enter the name of the maze");
+      return false;
+    }
     if (this.idToArray(document.querySelector(".current-cell").id).toString() === this.#table.goal.toString()) {
       this.#table.currentPosition = this.#table.start.toString();
     } else {
