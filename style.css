@@ -153,20 +153,29 @@ input::-webkit-inner-spin-button {
 }
 
 #buttons {
-  margin-top: 1vh;
+  padding-top: 1vh;
+}
+
+.buttons-fixed {
+  position: fixed;
+  z-index: 3;
+  background: rgb(241, 102, 228, 0.5);
+  background: linear-gradient(90deg, rgba(241, 102, 228, 0.5) 0%, rgba(124, 159, 18, 0.5) 92%);
+  margin-top: 0;
+  top: 0;
+  left: 0;
 }
 
 main {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   overflow: scroll;
 }
 
 /* maze drawing */
 .level {
-  align-self: flex-start;
   background-color: black;
   display: grid;
   grid-template-columns: repeat(3, 3fr);

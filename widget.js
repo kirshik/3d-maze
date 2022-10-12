@@ -181,10 +181,9 @@ class Widget {
    * 
    * @param {HTMLElement} level 
    */
-  focusOnLevel() {
-    const level = document.querySelector(".current-level");
-    if (level) {
-      const y = level.getBoundingClientRect().top + window.scrollY;
+  focusOnLevel(cell = document.querySelector(".current-cell")) {
+    if (cell) {
+      const y = cell.getBoundingClientRect().top + window.scrollY - 200;
       window.scroll({
         top: y,
         behavior: 'smooth'
@@ -318,8 +317,9 @@ class Widget {
   getHint() {
     const aStarSearch = this.solution()[0];
     const hintCell = document.getElementById(`${aStarSearch[0]},${aStarSearch[1]},${aStarSearch[2]}`);
+    this.focusOnLevel(hintCell);
     const initialCellColor = this.mainBackgroundColor;
-    setTimeout(() => { hintCell.style.backgroundColor = this.hintColor }, 15);
+    setTimeout(() => { hintCell.style.backgroundColor = this.hintColor }, 50);
     setTimeout(() => { hintCell.style.backgroundColor = 'var(--main-background-color)' }, 450);
   }
 
@@ -467,6 +467,10 @@ class Widget {
     }
     if (isLarge) {
       workPlace.style.flexDirection = "column";
+      if (document.querySelector(".current-level").clientWidth < document.documentElement.clientWidth) {
+        workPlace.style.alignItems = "center";
+        workPlace.style.justifyContent = "center";
+      };
     }
     this.#isGame = 1;
     this.focusOnLevel();
@@ -474,7 +478,12 @@ class Widget {
   }
 
   saveMaze() {
-    this.#table.currentPosition = document.querySelector(".current-cell").id;
+    if (this.idToArray(document.querySelector(".current-cell").id).toString() === this.#table.goal.toString()) {
+      this.#table.currentPosition = this.#table.start.toString();
+    } else {
+      this.#table.currentPosition = document.querySelector(".current-cell").id;
+    }
+
     const maze = JSON.stringify(this.#table);
     localStorage.setItem(this.#inptName.value, maze);
 
