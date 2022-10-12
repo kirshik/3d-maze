@@ -159,7 +159,9 @@ class Widget {
       btnDiv.appendChild(btnClose);
       winDiv.appendChild(btnDiv);
 
-      background.appendChild(winDiv);
+      if (!document.getElementById('win-start-game')) {
+        background.appendChild(winDiv);
+      }
 
       // handle win buttons
       function removeWin() {
@@ -521,13 +523,12 @@ class Widget {
     const btnClose = document.createElement("button");
     btnClose.className = 'win-btn';
     btnClose.textContent = "close";
-    btnClose.id = 'win-close';
+    btnClose.id = 'save-close';
     saveDiv.appendChild(btnClose);
-
     background.appendChild(saveDiv);
 
     // handle win buttons
-    document.querySelector('#win-close').addEventListener('click', () => {
+    document.querySelector('#save-close').addEventListener('click', () => {
       background.removeChild(saveDiv);
       game.style.opacity = "1";
     });
