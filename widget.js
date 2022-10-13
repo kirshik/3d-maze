@@ -25,6 +25,7 @@ class Widget {
   #flexDirection = "column";
 
   /**
+   * @param {HTMLElement} workPlace HTML element containing the maze
    * @param {String} pathPlayerImage  default 0 - then you can see player animations
    * @param {String} pathUpDownPortal 
    * @param {String} pathUpPortal 
@@ -37,7 +38,7 @@ class Widget {
    * @param {String} hintColor 
    * @param {String} mazeGenerator  dfs, prims or random (3 types of generator available)
    */
-  constructor(pathPlayerImage = 0, pathUpDownPortal = './asserts/portal-up-down.png', workPlace = document.querySelector("main"),
+  constructor(workPlace = document.querySelector("main"), pathPlayerImage = 0, pathUpDownPortal = './asserts/portal-up-down.png',
     pathUpPortal = './asserts/portal-up.png', pathDownPortal = './asserts/portal-down.png',
     pathGoalPortal = './asserts/goal.png', borderColor = "black", mainBackgroundColor = "#c4de7c",
     winBtnsBackgroundColor = 'white', mainFont = 'IndianaJones', hintColor = "#de7c7c", mazeGenerator = "dfs") {
