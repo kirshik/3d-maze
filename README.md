@@ -13,7 +13,7 @@ You can also visit this projects [GitHub Pages](https://kirshik.github.io/3d-maz
 
 clone this git repo
 ```
-  $ git clone git://github.com/SpringSource/spring-data-graph-examples.git
+  $ git clone https://github.com/kirshik/3d-maze.git
 
 ```
 
@@ -61,7 +61,7 @@ Independent __3D-Maze widget__ with random maze generation, that can be controll
 *   `GetHintButton` = id = __hint__
 *   `saveMazeGameButton` =  id = __save-maze__
 *   `loadMazeGameButton` =  id = __load-maze__
-*   `showRulesButton ` = id = __show-rules__ / id of HTML element = __rules__
+*   `showRulesButton ` = id = __show-rules__ / id of `HTML element` = __rules__
 
 #### Use this id on your inputs
 
