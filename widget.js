@@ -184,12 +184,16 @@ class Widget {
     }
   }
 
+  /**
+   * conveert id to array
+   * @param {String} id 
+   * @returns {Array}
+   */
   idToArray(id) {
     return id.split(",").map(n => Number(n));
   }
 
   /**
-   * 
    * @param {HTMLElement} level 
    */
   focusOnLevel(cell = document.querySelector(".current-cell")) {
@@ -320,7 +324,7 @@ class Widget {
   }
 
   /**
-   * @returns solution of maze
+   * @returns {Array<Array>} solution of maze
    */
   solution() {
     const currTable = this.#table;
@@ -407,6 +411,9 @@ class Widget {
     return this.#table.start;
   }
 
+  /**
+   * set main maze parametrs
+   */
   setMazeParams() {
     const inptRows = document.querySelector('#rows');
     const inptColumns = document.querySelector('#columns');
@@ -416,9 +423,7 @@ class Widget {
     this.#dimensions = inptDimensions.value;
 
   }
-  isLarge() {
-    return
-  }
+
 
   /**
    * start new game
@@ -498,6 +503,7 @@ class Widget {
       this.workPlace.appendChild(level);
 
     }
+    // hamdle large maze case
     if (isLarge) {
       this.workPlace.style.flexDirection = "column";
     }
@@ -505,11 +511,17 @@ class Widget {
       this.workPlace.style.alignItems = "center";
       this.workPlace.style.justifyContent = "center";
     };
+
+
     this.#isGame = 1;
     this.focusOnLevel();
     this.makeMove();
   }
 
+  /**
+   * save maze to a local storage and create massage window
+   * @returns {Bool} 
+   */
   saveMaze() {
     if (!this.#inptName.value) {
       alert("Pleae enter the name of the maze");
@@ -552,25 +564,40 @@ class Widget {
     });
 
   }
+
+  /**
+   * load maze from the local storage
+   */
   loadMaze() {
     const name = prompt("Enter the name of your maze");
-    const json = JSON.parse(localStorage.getItem(name));
-    const currentPosition = this.idToArray(json.currentPosition);
-    const maze = new Maze3d(Number(json.rows), Number(json.columns), Number(json.dimensions))
-    maze.maze = json.maze;
-    maze.start = json.start;
-    maze.goal = json.goal;
-    this.#table = maze;
-    this.startNewGame(() => { return currentPosition }, () => { });
+    const mazeString = localStorage.getItem(name);
+    if (mazeString) {
+      const json = JSON.parse(mazeString);
+      const currentPosition = this.idToArray(json.currentPosition);
+      const maze = new Maze3d(Number(json.rows), Number(json.columns), Number(json.dimensions))
+
+      maze.maze = json.maze;
+      maze.start = json.start;
+      maze.goal = json.goal;
+      this.#table = maze;
+
+      this.startNewGame(() => { return currentPosition }, () => { });
+
+    } else {
+      alert("No such name in your storage")
+    }
+
   }
 
+  /**
+   * pin buttons bar
+   */
   buttonsBar() {
     const buttons = document.querySelector(".buttons");
     const top = buttons.getBoundingClientRect().top;
     const bottom = buttons.getBoundingClientRect().bottom - 100;
+
     window.addEventListener("scroll", () => {
-      // console.log("SCROLL Y", scrollY)
-      // console.log()
       if (scrollY > bottom + buttons.clientHeight) {
         buttons.classList.add("buttons-fixed");
       } else if (scrollY <= bottom) {
