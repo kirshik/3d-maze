@@ -27,6 +27,14 @@ You can also visit this project [GitHub Pages](https://kirshik.github.io/3d-maze
 *   `hintColor` **[String][102]**  (optional, default `"#de7c7c"`)
 *   `mazeGenerator` **[String][102]** dfs, prims or random (3 types of generator available) (optional, default `"dfs"`)
 
+## Copyright
+
+*   `__author__` = "Kirill Shiriaev https://github.com/kirshik/3d-maze/"
+*   `__copyright__` = "Copyright (C) 2022 Kirill Shiriaev"
+*   `__license__ `= "Public Domain"
+*   `__version__ `= "1.0"
+
 [1]: #setup
 [2]: #widget
 [3]: #parameters
+[4]: #copyright
