@@ -13,7 +13,7 @@
 *   `pathGoalPortal` **[String]**  (optional, default `'./asserts/goal.png'`)
 *   `borderColor` **[String]**  (optional, default `"black"`)
 *   `mainBackgroundColor` **[String]**  (optional, default `#C4DE7C`)
-*   `winBtnsBackgroundColor` **[String]**  (optional, default `#FFFFFF`)
+*   `winBtnsBackgroundColor` **[String]**  (optional, default `#ffffff`)
 *   `mainFont` **[String]**  (optional, default `'IndianaJones'`)
 *   `hintColor` **[String]**  (optional, default `"#DE7C7C"`)
 *   `mazeGenerator` **[String]** dfs, prims or random (3 types of generator available) (optional, default `"dfs"`)
