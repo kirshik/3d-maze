@@ -1,4 +1,4 @@
-You can also visit this project [GitHub Pages](https://kirshik.github.io/3d-maze/).:sunglasses:
+You can also visit this projects [GitHub Pages](https://kirshik.github.io/3d-maze/).:sunglasses:
 
 ### Table of Contents
 
