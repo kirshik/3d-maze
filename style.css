@@ -123,7 +123,6 @@ input::-webkit-inner-spin-button {
   margin-top: 0;
   padding: 15px;
   font-size: var(--index);
-  margin-bottom: 20vh;
 }
 
 #controller input {
@@ -164,7 +163,8 @@ input::-webkit-inner-spin-button {
   background: linear-gradient(90deg, rgba(241, 102, 228, 0.5) 0%, rgba(124, 159, 18, 0.5) 92%);
   margin-top: 0;
   top: 0;
-  left: 0.5;
+  left: 0;
+  width: 100%;
 }
 
 main {
@@ -307,7 +307,6 @@ footer p:before {
   }
 
   .portal {
-    transform: rotate(90deg);
     width: calc(var(--index)*2.5);
 
   }

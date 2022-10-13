@@ -166,7 +166,9 @@ class Widget {
 
       // handle win buttons
       function removeWin() {
-        background.removeChild(winDiv);
+        if (document.querySelector(".win-div")) {
+          background.removeChild(winDiv);
+        }
         game.style.opacity = "1";
       }
       document.querySelector('#win-close').addEventListener('click', () => { removeWin() });
@@ -192,7 +194,7 @@ class Widget {
   focusOnLevel(cell = document.querySelector(".current-cell")) {
     if (this.#flexDirection !== "row") {
       if (cell) {
-        const y = cell.getBoundingClientRect().top + window.scrollY - 200;
+        const y = cell.getBoundingClientRect().top + window.scrollY - 250;
         window.scroll({
           top: y,
           behavior: 'smooth'
@@ -233,6 +235,7 @@ class Widget {
       const nextLevel = nextCell.parentNode;
       nextLevel.classList.add('current-level');
       this.focusOnLevel();
+
       this.placePlayer(nextCell);
 
       this.winAction(move);
@@ -284,6 +287,13 @@ class Widget {
     const rules = document.getElementById("rules");
     if (rules.hidden) {
       rules.hidden = false;
+      if (rules) {
+        const y = rules.getBoundingClientRect().top + window.scrollY - 100;
+        window.scroll({
+          top: y,
+          behavior: 'smooth'
+        })
+      }
     } else {
       rules.hidden = true;
     }
@@ -551,6 +561,21 @@ class Widget {
     maze.goal = json.goal;
     this.#table = maze;
     this.startNewGame(() => { return currentPosition }, () => { });
+  }
+
+  buttonsBar() {
+    const buttons = document.querySelector(".buttons");
+    const top = buttons.getBoundingClientRect().top;
+    const bottom = buttons.getBoundingClientRect().bottom - 100;
+    window.addEventListener("scroll", () => {
+      // console.log("SCROLL Y", scrollY)
+      // console.log()
+      if (scrollY > bottom + buttons.clientHeight) {
+        buttons.classList.add("buttons-fixed");
+      } else if (scrollY <= bottom) {
+        buttons.classList.remove("buttons-fixed");
+      }
+    })
   }
 
 
