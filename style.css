@@ -116,6 +116,8 @@ input::-webkit-inner-spin-button {
   background-color: #EA64AB;
   padding: calc(var(--index)*0.2);
   border-radius: 15%;
+  display: inline-block;
+  margin: calc(var(--index)*0.1);
 }
 
 #controller {
